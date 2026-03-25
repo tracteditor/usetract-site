@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRACT — Know Your Representatives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0e0e0e;
+    --white: #f5f3ee;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --faint: #e8e5df;
+    --accent: #c8392b;
+    --accent-light: #fdf0ef;
+    --green: #2d6a4f;
+    --green-light: #edf7f1;
+    --amber: #b45309;
+    --amber-light: #fef3c7;
+    --border: rgba(0,0,0,0.1);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    max-width: 560px;
+    margin: 0 auto 1rem;
+    animation: fadeUp 0.7s 0.15s ease both;
+  }
+
+  .search-box {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .search-box input {
+    flex: 1;
+    padding: 14px 18px;
+    font-family: var(--sans);
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .search-box input::placeholder { color: var(--muted); }
+
+  .search-box button {
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .search-box button:hover { background: #333; }
+
+  .search-hint {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  /* ISSUES */
+  .issues-wrap {
+    max-width: 600px;
+    margin: 0 auto 4rem;
+    animation: fadeUp 0.7s 0.25s ease both;
+  }
+
+  .issues-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .issues-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .issue-pill {
+    font-size: 12px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    cursor: pointer;
+    color: var(--muted);
+    background: var(--white);
+    font-family: var(--sans);
+    font-weight: 400;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .issue-pill:hover { border-color: var(--ink); color: var(--ink); }
+
+  .issue-pill.active {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* HOW IT WORKS */
+  .how-section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 3rem;
+    line-height: 1.2;
+  }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+
+  .how-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+
+  .how-card:hover { border-color: var(--ink); }
+
+  .how-number {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--faint);
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .how-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .how-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* MISSION */
+  .mission-section {
+    background: var(--ink);
+    color: var(--white);
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+
+  .mission-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .mission-inner .section-eyebrow { color: rgba(255,255,255,0.4); }
+
+  .mission-quote {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .mission-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* RESULTS */
+  #results-section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    display: none;
+  }
+
+  .results-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .results-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .results-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-size: 12px;
+    padding: 5px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--white);
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  .rep-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 10px;
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .rep-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  .rep-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .rep-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .av-r { background: #fdf0ef; color: var(--accent); }
+  .av-d { background: #eef4fb; color: #1a5fa8; }
+
+  .rep-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .rep-title {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .rep-scores {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .score-item {
+    background: #f9f7f3;
+    border-radius: 4px;
+    padding: 10px 12px;
+  }
+
+  .score-issue {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .score-val {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 3px;
+  }
+
+  .score-red { color: var(--accent); }
+  .score-green { color: var(--green); }
+  .score-amber { color: var(--amber); }
+
+  .rep-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .meta-pill {
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  .pill-years { background: #f9f7f3; color: var(--muted); border: 1px solid var(--border); }
+  .pill-conflict { background: var(--amber-light); color: var(--amber); }
+  .pill-clean { background: var(--green-light); color: var(--green); }
+
+  .view-btn {
+    font-size: 12px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+  }
+
+  .view-btn:hover {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: 0.06em;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    max-width: 400px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--ink); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .how-section { padding: 3rem 1rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .rep-scores { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">TRACT</a>
+  <ul class="nav-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="https://www.buymeacoffee.com" target="_blank">Support TRACT</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Voter accountability · Public record only · No spin</p>
+  <h1>Did your representatives<br><em>keep their word?</em></h1>
+  <p class="hero-sub">TRACT tracks elected officials against their campaign promises, donor relationships, and voting records — so you can decide for yourself.</p>
+</section>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <input type="text" id="zip-input" placeholder="Enter your ZIP code" maxlength="10" />
+    <button onclick="showResults()">Look up →</button>
+  </div>
+</div>
+<p class="search-hint">Enter your ZIP to find your federal and state representatives</p>
+
+<div class="issues-wrap">
+  <p class="issues-label">Filter by what matters to you</p>
+  <div class="issues-grid">
+    <span class="issue-pill active" onclick="toggleIssue(this)">Healthcare</span>
+    <span class="issue-pill active" onclick="toggleIssue(this)">Defense spending</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Border security</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Gun rights</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Social Security</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Tax policy</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Education</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Veterans affairs</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Energy</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Criminal justice</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Immigration</span>
+    <span class="issue-pill" onclick="toggleIssue(this)">Trade</span>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<section id="results-section">
+  <div class="results-header">
+    <div class="results-title" id="results-title">Your representatives</div>
+    <div class="results-sub" id="results-sub">Scored on selected issues</div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Federal</button>
+    <button class="filter-btn">State</button>
+    <button class="filter-btn">Promise gaps only</button>
+  </div>
+
+  <div class="rep-card" onclick="window.location.href='ted-cruz.html'">
+    <div class="rep-top">
+      <div class="rep-avatar av-r">TC</div>
+      <div>
+        <div class="rep-name">Sen. Ted Cruz</div>
+        <div class="rep-title">U.S. Senate · Texas · Republican · 12 years in office</div>
+      </div>
+    </div>
+    <div class="rep-scores">
+      <div class="score-item">
+        <div class="score-issue">Healthcare</div>
+        <div class="score-val score-red">3 gaps</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Defense spending</div>
+        <div class="score-val score-amber">1 gap</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Promises kept</div>
+        <div class="score-val score-green">9 kept</div>
+      </div>
+    </div>
+    <div class="rep-meta">
+      <span class="meta-pill pill-years">12 years in office</span>
+      <span class="meta-pill pill-conflict">Donor conflicts flagged</span>
+    </div>
+    <button class="view-btn">View full profile →</button>
+  </div>
+
+  <div class="rep-card" onclick="window.location.href='john-cornyn.html'">
+    <div class="rep-top">
+      <div class="rep-avatar av-r">JC</div>
+      <div>
+        <div class="rep-name">Sen. John Cornyn</div>
+        <div class="rep-title">U.S. Senate · Texas · Republican · 22 years in office</div>
+      </div>
+    </div>
+    <div class="rep-scores">
+      <div class="score-item">
+        <div class="score-issue">Healthcare</div>
+        <div class="score-val score-amber">2 gaps</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Defense spending</div>
+        <div class="score-val score-red">4 gaps</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Promises kept</div>
+        <div class="score-val score-green">6 kept</div>
+      </div>
+    </div>
+    <div class="rep-meta">
+      <span class="meta-pill pill-years">22 years in office</span>
+      <span class="meta-pill pill-conflict">Donor conflicts flagged</span>
+    </div>
+    <button class="view-btn">View full profile →</button>
+  </div>
+
+  <div class="rep-card" onclick="window.location.href='veronica-escobar.html'">
+    <div class="rep-top">
+      <div class="rep-avatar av-d">VE</div>
+      <div>
+        <div class="rep-name">Rep. Veronica Escobar</div>
+        <div class="rep-title">U.S. House · TX-16 · Democrat · 6 years in office</div>
+      </div>
+    </div>
+    <div class="rep-scores">
+      <div class="score-item">
+        <div class="score-issue">Healthcare</div>
+        <div class="score-val score-green">0 gaps</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Defense spending</div>
+        <div class="score-val score-amber">2 gaps</div>
+      </div>
+      <div class="score-item">
+        <div class="score-issue">Promises kept</div>
+        <div class="score-val score-green">11 kept</div>
+      </div>
+    </div>
+    <div class="rep-meta">
+      <span class="meta-pill pill-years">6 years in office</span>
+      <span class="meta-pill pill-clean">No donor conflicts</span>
+    </div>
+    <button class="view-btn">View full profile →</button>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="how-section">
+  <p class="section-eyebrow">How it works</p>
+  <h2 class="section-title">Three questions.<br>One source of truth.</h2>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-number">01</div>
+      <h3>What did they promise?</h3>
+      <p>Campaign statements, debate quotes, and public commitments — documented and sourced before they took office.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-number">02</div>
+      <h3>What did they actually do?</h3>
+      <p>Every vote, sponsored bill, committee seat, and attendance record — pulled directly from GovTrack and Congress.gov.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-number">03</div>
+      <h3>Who is paying them?</h3>
+      <p>Donor industries cross-referenced with committee seats and votes — the chain made visible from OpenSecrets and FEC filings.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-number">04</div>
+      <h3>You decide what it means.</h3>
+      <p>No editorial scoring. No political agenda. TRACT shows you the record. The conclusion is yours.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mission-section">
+  <div class="mission-inner">
+    <p class="section-eyebrow">Our mission</p>
+    <p class="mission-quote">"See if your elected officials are doing what they promised — no spin, just the record."</p>
+    <p class="mission-sub">TRACT exists to inform voters — not influence them. The same methodology applies to every politician regardless of party. A Republican and a Democrat are held to the identical standard. The data speaks. You listen.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">TRACT</div>
+  <p class="footer-note">All data sourced from public records: GovTrack, OpenSecrets, FEC, Congress.gov, and financial disclosure filings. Updated weekly.</p>
+  <ul class="footer-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="mailto:editor@usetract.org">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+function toggleIssue(el) {
+  el.classList.toggle('active');
+}
+
+function showResults() {
+  var zip = document.getElementById('zip-input').value.trim();
+  if (zip.length >= 5) {
+    var section = document.getElementById('results-section');
+    section.style.display = 'block';
+    document.getElementById('results-title').textContent = 'Your representatives — ZIP ' + zip;
+    document.getElementById('results-sub').textContent = 'Showing federal representatives for this ZIP code';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    document.getElementById('zip-input').focus();
+    document.getElementById('zip-input').style.outline = '2px solid #c8392b';
+    setTimeout(function() {
+      document.getElementById('zip-input').style.outline = 'none';
+    }, 1500);
+  }
+}
+
+document.getElementById('zip-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') showResults();
+});
+
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
