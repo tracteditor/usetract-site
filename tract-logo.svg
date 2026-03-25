@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 96" width="340" height="96">
+
+  <!-- Shield J mark -->
+  <path d="M26 4 L48 12 L48 46 Q48 68 26 80 Q4 68 4 46 L4 12 Z" fill="#1a1a1a" stroke-linejoin="round"/>
+  <path d="M26 11 L42 18 L42 46 Q42 62 26 72 Q10 62 10 46 L10 18 Z" fill="none" stroke="#D4320A" stroke-width="1.8" stroke-linejoin="round"/>
+
+  <!-- Bars -->
+  <line x1="15" y1="26" x2="15" y2="60" stroke="#F5F3EE" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="23" y1="26" x2="23" y2="60" stroke="#F5F3EE" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="31" y1="26" x2="31" y2="60" stroke="#F5F3EE" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="39" y1="26" x2="39" y2="60" stroke="#F5F3EE" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- Red X through bars -->
+  <line x1="9" y1="42" x2="45" y2="42" stroke="#D4320A" stroke-width="2.8" stroke-linecap="round"/>
+  <line x1="14" y1="29" x2="36" y2="57" stroke="#D4320A" stroke-width="2.4" stroke-linecap="round"/>
+  <line x1="36" y1="29" x2="14" y2="57" stroke="#D4320A" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- TRACT wordmark -->
+  <text x="64" y="58"
+    font-family="Impact, Arial Black, sans-serif"
+    font-size="54"
+    font-weight="900"
+    letter-spacing="2"
+    fill="#0A0A0A">TRACT</text>
+
+  <!-- Red bar -->
+  <rect x="64" y="67" width="270" height="5" fill="#D4320A"/>
+
+  <!-- Truth · Accountability · Record -->
+  <text x="64" y="83"
+    font-family="Georgia, Times New Roman, serif"
+    font-size="9"
+    letter-spacing="3"
+    fill="#D4320A">TRUTH</text>
+
+  <text x="199" y="83"
+    font-family="Georgia, Times New Roman, serif"
+    font-size="9"
+    letter-spacing="1.5"
+    text-anchor="middle"
+    fill="#6b6b6b">ACCOUNTABILITY</text>
+
+  <text x="334" y="83"
+    font-family="Georgia, Times New Roman, serif"
+    font-size="9"
+    letter-spacing="3"
+    text-anchor="end"
+    fill="#D4320A">RECORD</text>
+
+</svg>
