@@ -548,6 +548,8 @@
 <nav>
   <a href="/" class="nav-logo">TRACT</a>
   <ul class="nav-links">
+    <li><a href="/politicians.html">Politicians</a></li>
+    <li><a href="/politicians.html">Politicians</a></li>
     <li><a href="/about.html">About</a></li>
     <li><a href="/methodology.html">Methodology</a></li>
     <li><a href="https://www.buymeacoffee.com" target="_blank">Support TRACT</a></li>
@@ -567,6 +569,13 @@
   </div>
 </div>
 <p class="search-hint">Enter your ZIP to find your federal and state representatives</p>
+<div style="text-align:center; margin-bottom: 3rem;">
+  <a href="/politicians.html" style="display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none; border:1.5px solid var(--ink); border-radius:4px; padding:10px 22px; transition:all 0.2s;">
+    Browse all politicians &#8594;
+  </a>
+  <p style="font-size:12px; color:var(--muted); margin-top:10px;">6 profiles live &middot; House &amp; Senate leadership &middot; updated weekly</p>
+</div>
+
 
 <div class="issues-wrap">
   <p class="issues-label">Filter by what matters to you</p>
@@ -584,6 +593,12 @@
     <span class="issue-pill" onclick="toggleIssue(this)">Immigration</span>
     <span class="issue-pill" onclick="toggleIssue(this)">Trade</span>
   </div>
+</div>
+
+
+<div style="text-align:center; margin: 0 auto 3rem; max-width: 560px; animation: fadeUp 0.7s 0.35s ease both;">
+  <p style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">Or browse profiles of the most powerful members of Congress</p>
+  <a href="/politicians.html" style="display: inline-block; font-size: 14px; font-weight: 500; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 4px; padding: 10px 28px; text-decoration: none; letter-spacing: 0.03em; transition: all 0.2s;">Browse all profiles &rarr;</a>
 </div>
 
 <div class="section-divider"></div>
@@ -730,13 +745,15 @@
   <div class="footer-logo">TRACT</div>
   <p class="footer-note">All data sourced from public records: GovTrack, OpenSecrets, FEC, Congress.gov, and financial disclosure filings. Updated weekly.</p>
   <ul class="footer-links">
+    <li><a href="/politicians.html">Politicians</a></li>
+    <li><a href="/politicians.html">Politicians</a></li>
     <li><a href="/about.html">About</a></li>
     <li><a href="/methodology.html">Methodology</a></li>
-    <li><a href="mailto:editor@usetract.org">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#5c39383528332e1c292f39282e3d3f2872332e3b">Contact</a></li>
   </ul>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleIssue(el) {
   el.classList.toggle('active');
 }
@@ -764,11 +781,4 @@ document.getElementById('zip-input').addEventListener('keydown', function(e) {
 
 document.querySelectorAll('.filter-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-  });
-});
-</script>
-
-</body>
-</html>
+    document.querySel
