@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mike Johnson — TRACT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0e0e0e; --white: #f5f3ee; --ink: #1a1a1a; --muted: #6b6b6b;
+    --faint: #e8e5df; --accent: #c8392b; --green: #2d6a4f; --green-light: #edf7f1;
+    --amber: #b45309; --amber-light: #fef3c7; --red-light: #fdf0ef;
+    --border: rgba(0,0,0,0.1); --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--white); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-logo { font-family: var(--serif); font-size: 22px; letter-spacing: 0.08em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .back-link { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 0; }
+  .back-link a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .back-link a:hover { color: var(--ink); }
+  .profile { max-width: 860px; margin: 0 auto; padding: 2rem; }
+  .header-card { border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: #fdf0ef; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; color: var(--accent); flex-shrink: 0; }
+  .header-info h1 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); }
+  .header-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 500; }
+  .badge-r { background: #fdf0ef; color: var(--accent); }
+  .badge-n { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .badge-warn { background: var(--amber-light); color: var(--amber); }
+  .badge-clean { background: var(--green-light); color: var(--green); }
+  .methodology { font-size: 12px; color: var(--muted); background: #f9f7f3; border-radius: 4px; padding: 10px 14px; margin-top: 1rem; line-height: 1.6; border-left: 3px solid var(--faint); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-bottom: 1rem; }
+  .stat { background: #f9f7f3; border-radius: 4px; padding: 14px; }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .stat-value { font-size: 22px; font-weight: 500; color: var(--ink); margin-top: 4px; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .section { border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; font-style: italic; }
+  .promise-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 12px 0; border-bottom: 1px solid var(--faint); }
+  .promise-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .plabel { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+  .ptext { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .ptag { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 100px; margin-top: 6px; font-weight: 500; }
+  .tag-broken { background: #fdf0ef; color: var(--accent); }
+  .tag-kept { background: var(--green-light); color: var(--green); }
+  .tag-unclear { background: var(--amber-light); color: var(--amber); }
+  .tag-verify { background: #f0ede7; color: var(--muted); border: 1px dashed var(--muted); }
+  .donor-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--faint); }
+  .donor-row:last-child { border-bottom: none; }
+  .dname { font-size: 13px; color: var(--ink); font-weight: 500; }
+  .dindustry { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .dtag { font-size: 10px; padding: 2px 8px; border-radius: 100px; display: inline-block; margin-top: 4px; font-weight: 500; }
+  .dtag-conflict { background: var(--amber-light); color: var(--amber); }
+  .dtag-clean { background: var(--green-light); color: var(--green); }
+  .damt { text-align: right; }
+  .damt-val { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .dbar-wrap { width: 80px; height: 3px; background: var(--faint); border-radius: 2px; margin-top: 5px; margin-left: auto; }
+  .dbar { height: 3px; border-radius: 2px; background: var(--ink); }
+  .committee-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--faint); font-size: 13px; color: var(--ink); }
+  .committee-row:last-child { border-bottom: none; }
+  .ctag { font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; white-space: nowrap; margin-left: 10px; }
+  .ctag-conflict { background: var(--amber-light); color: var(--amber); }
+  .ctag-clean { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .bill-row { padding: 10px 0; border-bottom: 1px solid var(--faint); }
+  .bill-row:last-child { border-bottom: none; }
+  .bill-name { font-size: 13px; color: var(--ink); }
+  .bill-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .bstatus { display: inline-block; font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; margin-top: 5px; }
+  .bs-pass { background: var(--green-light); color: var(--green); }
+  .bs-fail { background: #fdf0ef; color: var(--accent); }
+  .bs-pend { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .wealth-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--faint); font-size: 13px; }
+  .wealth-row:last-child { border-bottom: none; }
+  .wyear { color: var(--muted); }
+  .wval { font-weight: 500; color: var(--ink); }
+  .source-line { font-size: 11px; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--faint); }
+  .verify-banner { background: var(--amber-light); border: 1px solid #f0d090; border-radius: 4px; padding: 10px 14px; font-size: 12px; color: var(--amber); margin-bottom: 1rem; }
+  footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+  .footer-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); letter-spacing: 0.06em; }
+  .footer-note { font-size: 12px; color: var(--muted); max-width: 400px; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--ink); }
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .promise-row { grid-template-columns: 1fr; }
+    .header-card { flex-direction: column; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .profile { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html" class="nav-logo">TRACT</a>
+  <ul class="nav-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="https://www.buymeacoffee.com" target="_blank">Support TRACT</a></li>
+  </ul>
+</nav>
+
+<div class="back-link"><a href="/index.html">← Back to search</a></div>
+
+<div class="profile">
+
+  <div class="verify-banner">⚠ This profile contains placeholder data pending verification. All figures must be confirmed against primary sources before this page is published publicly. See TRACT Verification Master spreadsheet.</div>
+
+  <div class="header-card">
+    <div class="avatar">MJ</div>
+    <div class="header-info">
+      <h1>Rep. Mike Johnson</h1>
+      <div class="header-sub">Speaker of the House · U.S. House of Representatives · Louisiana · 4th District · Republican</div>
+      <div class="badges">
+        <span class="badge badge-r">Republican</span>
+        <span class="badge badge-n">Speaker since Oct 2023</span>
+        <!-- VERIFY: years in office since first elected -->
+        <span class="badge badge-n">In office since 2017</span>
+        <span class="badge badge-warn">Donor conflicts flagged</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="methodology">All data sourced from public records. Promise gaps reflect documented campaign statements versus official vote record. This profile shows both where Rep. Johnson kept his word and where the record diverges — the voter decides what that means. Same methodology applied to every politician regardless of party.</div>
+
+  <!-- VERIFY ALL STATS against primary sources -->
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Attendance</div>
+      <!-- VERIFY: govtrack.us -->
+      <div class="stat-value">89%</div>
+      <div class="stat-sub">House avg: 92%</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Promises kept</div>
+      <!-- VERIFY: from promise tracking -->
+      <div class="stat-value">—</div>
+      <div class="stat-sub">pending verification</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Promises broken</div>
+      <div class="stat-value">—</div>
+      <div class="stat-sub">pending verification</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Net worth change</div>
+      <!-- VERIFY: house.gov financial disclosures -->
+      <div class="stat-value">—</div>
+      <div class="stat-sub">pending verification</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Campaign promises vs. vote record</div>
+    <div class="section-note">Showing both fulfilled and broken promises. Voter decides what matters.</div>
+
+    <!-- VERIFY: Find exact quotes from primary sources before publishing -->
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What he promised</div>
+        <div class="ptext">"I will fight to cut spending and reduce the national debt."</div>
+      </div>
+      <div>
+        <div class="plabel">What he did</div>
+        <!-- VERIFY: congress.gov vote record -->
+        <div class="ptext">Voted yes on continuing resolution funding government at elevated spending levels. Presided over debt ceiling increase as Speaker.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What he promised</div>
+        <div class="ptext">"I am committed to election integrity and ensuring every legal vote counts."</div>
+      </div>
+      <div>
+        <div class="plabel">What he did</div>
+        <!-- VERIFY: congress.gov -->
+        <div class="ptext">Voted against certifying 2020 presidential election results on January 7, 2021. Led legal effort to challenge election results in multiple states.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What he promised</div>
+        <div class="ptext">"I will defend the Constitution and protect religious liberty."</div>
+      </div>
+      <div>
+        <div class="plabel">What he did</div>
+        <!-- VERIFY: Find specific legislation -->
+        <div class="ptext">Sponsored Religious Freedom bills. Consistent record on First Amendment legislation. Verify specific bills on congress.gov.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What he promised</div>
+        <div class="ptext">"I will support Israel and our allies."</div>
+      </div>
+      <div>
+        <div class="plabel">What he did</div>
+        <!-- VERIFY: specific aid votes -->
+        <div class="ptext">Brought $95B foreign aid package to House floor for vote Apr 2024 including Israel aid — passed despite opposition from some in own party.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+
+    <div class="source-line">Sources to verify: congress.gov · govtrack.us · C-SPAN archives · campaign statements</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Top donors — cross-referenced with votes</div>
+    <!-- VERIFY ALL FIGURES: opensecrets.org/members-of-congress/mike-johnson -->
+    <div class="donor-row">
+      <div>
+        <div class="dname">Conservative/Republican PACs</div>
+        <div class="dindustry">Ideological donors — primary funding source</div>
+        <span class="dtag dtag-clean">Verify on OpenSecrets</span>
+      </div>
+      <div class="damt">
+        <div class="damt-val">VERIFY</div>
+        <div class="dbar-wrap"><div class="dbar" style="width:100%"></div></div>
+      </div>
+    </div>
+    <div class="donor-row">
+      <div>
+        <div class="dname">Oil &amp; Gas industry</div>
+        <div class="dindustry">Louisiana energy sector</div>
+        <span class="dtag dtag-conflict">Verify conflict</span>
+      </div>
+      <div class="damt">
+        <div class="damt-val">VERIFY</div>
+        <div class="dbar-wrap"><div class="dbar" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="donor-row">
+      <div>
+        <div class="dname">Real estate industry</div>
+        <div class="dindustry">No direct committee overlap — verify</div>
+        <span class="dtag dtag-clean">Verify on OpenSecrets</span>
+      </div>
+      <div class="damt">
+        <div class="damt-val">VERIFY</div>
+        <div class="dbar-wrap"><div class="dbar" style="width:50%"></div></div>
+      </div>
+    </div>
+    <div class="source-line">VERIFY ALL: opensecrets.org/members-of-congress/mike-johnson/summary · fec.gov</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Committee seats &amp; leadership role</div>
+    <!-- VERIFY: congress.gov/member/mike-johnson -->
+    <div class="committee-row">
+      <div>Speaker of the House — presides over full House, controls legislative agenda</div>
+      <span class="ctag ctag-clean">Verify current</span>
+    </div>
+    <div class="committee-row">
+      <div>As Speaker, does not serve on standing committees — verify on congress.gov</div>
+      <span class="ctag ctag-clean">Verify</span>
+    </div>
+    <div class="source-line">VERIFY: congress.gov/member/mike-johnson/J000299</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Bills introduced this term</div>
+    <!-- VERIFY ALL: govtrack.us / congress.gov -->
+    <div class="bill-row">
+      <div class="bill-name">VERIFY — Pull from congress.gov sponsored legislation</div>
+      <div class="bill-meta">Source: congress.gov/member/mike-johnson/J000299 → Sponsored Legislation tab</div>
+      <span class="bstatus bs-pend">Pending verification</span>
+    </div>
+    <div class="source-line">VERIFY ALL: govtrack.us · congress.gov</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Net worth while in office</div>
+    <!-- VERIFY: disclosures.house.gov -->
+    <div class="wealth-row"><span class="wyear">2017 — entered office</span><span class="wval">VERIFY — disclosures.house.gov</span></div>
+    <div class="wealth-row"><span class="wyear">2019</span><span class="wval">VERIFY</span></div>
+    <div class="wealth-row"><span class="wyear">2021</span><span class="wval">VERIFY</span></div>
+    <div class="wealth-row"><span class="wyear">2023</span><span class="wval">VERIFY</span></div>
+    <div class="wealth-row"><span class="wyear">2024</span><span class="wval">VERIFY</span></div>
+    <div class="source-line">VERIFY ALL: disclosures.house.gov · opensecrets.org/personal-finances/mike-johnson</div>
+  </div>
+
+  <div class="methodology">TRACT methodology: Promise tracking uses documented campaign statements, debate transcripts, and official press releases. Vote records sourced from GovTrack and Congress.gov. Donor data from OpenSecrets and FEC filings. Conflict flags applied when donor industry and committee seat overlap AND a vote on related legislation occurred. No editorial scoring — raw data only. Same methodology applied to every politician regardless of party.</div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">TRACT</div>
+  <p class="footer-note">All data sourced from public records. Updated weekly.</p>
+  <ul class="footer-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="mailto:editor@usetract.org">Contact</a></li>
+  </ul>
+</footer>
+</body>
+</html>

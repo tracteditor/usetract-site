@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rep. Steve Scalise — TRACT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --white: #f5f3ee; --ink: #1a1a1a; --muted: #6b6b6b; --faint: #e8e5df;
+    --accent: #c8392b; --green: #2d6a4f; --green-light: #edf7f1;
+    --amber: #b45309; --amber-light: #fef3c7;
+    --border: rgba(0,0,0,0.1); --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--white); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-logo { font-family: var(--serif); font-size: 22px; letter-spacing: 0.08em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .back-link { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 0; }
+  .back-link a { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .back-link a:hover { color: var(--ink); }
+  .profile { max-width: 860px; margin: 0 auto; padding: 2rem; }
+  .header-card { border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: #fdf0ef; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; color: #c8392b; flex-shrink: 0; }
+  .header-info h1 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); }
+  .header-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 500; }
+  .badge-r { background: #fdf0ef; color: var(--accent); }
+  .badge-d { background: #eef4fb; color: #1a5fa8; }
+  .badge-n { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .badge-warn { background: var(--amber-light); color: var(--amber); }
+  .methodology { font-size: 12px; color: var(--muted); background: #f9f7f3; border-radius: 4px; padding: 10px 14px; margin-top: 1rem; line-height: 1.6; border-left: 3px solid var(--faint); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-bottom: 1rem; }
+  .stat { background: #f9f7f3; border-radius: 4px; padding: 14px; }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .stat-value { font-size: 22px; font-weight: 500; color: var(--ink); margin-top: 4px; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .section { border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; font-style: italic; }
+  .promise-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 12px 0; border-bottom: 1px solid var(--faint); }
+  .promise-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .plabel { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+  .ptext { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .ptag { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 100px; margin-top: 6px; font-weight: 500; }
+  .tag-verify { background: #f0ede7; color: var(--muted); border: 1px dashed var(--muted); }
+  .donor-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--faint); }
+  .donor-row:last-child { border-bottom: none; }
+  .dname { font-size: 13px; color: var(--ink); font-weight: 500; }
+  .dindustry { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .dtag { font-size: 10px; padding: 2px 8px; border-radius: 100px; display: inline-block; margin-top: 4px; font-weight: 500; background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .damt { text-align: right; }
+  .damt-val { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .dbar-wrap { width: 80px; height: 3px; background: var(--faint); border-radius: 2px; margin-top: 5px; margin-left: auto; }
+  .dbar { height: 3px; border-radius: 2px; background: var(--ink); }
+  .committee-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--faint); font-size: 13px; color: var(--ink); }
+  .committee-row:last-child { border-bottom: none; }
+  .ctag { font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; white-space: nowrap; margin-left: 10px; background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .bill-row { padding: 10px 0; border-bottom: 1px solid var(--faint); }
+  .bill-row:last-child { border-bottom: none; }
+  .bill-name { font-size: 13px; color: var(--ink); }
+  .bill-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .bstatus { display: inline-block; font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; margin-top: 5px; background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
+  .wealth-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--faint); font-size: 13px; }
+  .wealth-row:last-child { border-bottom: none; }
+  .wyear { color: var(--muted); }
+  .wval { font-weight: 500; color: var(--ink); }
+  .source-line { font-size: 11px; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--faint); }
+  .verify-banner { background: var(--amber-light); border: 1px solid #f0d090; border-radius: 4px; padding: 10px 14px; font-size: 12px; color: var(--amber); margin-bottom: 1rem; }
+  footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+  .footer-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); letter-spacing: 0.06em; }
+  .footer-note { font-size: 12px; color: var(--muted); max-width: 400px; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .promise-row { grid-template-columns: 1fr; }
+    .header-card { flex-direction: column; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .profile { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html" class="nav-logo">TRACT</a>
+  <ul class="nav-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="https://www.buymeacoffee.com" target="_blank">Support TRACT</a></li>
+  </ul>
+</nav>
+<div class="back-link"><a href="/index.html">← Back to search</a></div>
+<div class="profile">
+  <div class="verify-banner">⚠ This profile contains placeholder data pending verification. All figures must be confirmed against primary sources before this page is published publicly. See TRACT Verification Master spreadsheet.</div>
+  <div class="header-card">
+    <div class="avatar">SS</div>
+    <div class="header-info">
+      <h1>Rep. Steve Scalise</h1>
+      <div class="header-sub">House Majority Leader · U.S. House of Representatives · Louisiana · 1st District</div>
+      <div class="badges">
+        <span class="badge badge-r">Republican</span>
+        <span class="badge badge-n">Majority Leader since Jan 2023</span>
+        <span class="badge badge-n">In office since 2008</span>
+        <span class="badge badge-warn">Pending verification</span>
+      </div>
+    </div>
+  </div>
+  <div class="methodology">All data sourced from public records. Promise gaps reflect documented campaign statements versus official vote record. This profile shows both where Rep. Steve Scalise kept their word and where the record diverges — the voter decides what that means. Same methodology applied to every politician regardless of party.</div>
+  <div class="stats-grid">
+    <div class="stat"><div class="stat-label">Attendance</div><div class="stat-value">—</div><div class="stat-sub">VERIFY: govtrack.us</div></div>
+    <div class="stat"><div class="stat-label">Promises kept</div><div class="stat-value">—</div><div class="stat-sub">pending verification</div></div>
+    <div class="stat"><div class="stat-label">Promises broken</div><div class="stat-value">—</div><div class="stat-sub">pending verification</div></div>
+    <div class="stat"><div class="stat-label">Net worth change</div><div class="stat-value">—</div><div class="stat-sub">VERIFY: disclosures</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Campaign promises vs. vote record</div>
+    <div class="section-note">All promises require exact quotes from primary sources before publishing. Voter decides what the gaps mean.</div>
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What they promised</div>
+        <div class="ptext">VERIFY — Find exact campaign quotes. Sources: campaign website archive · C-SPAN · press releases · debate transcripts.</div>
+      </div>
+      <div>
+        <div class="plabel">What they did</div>
+        <div class="ptext">VERIFY — Pull corresponding vote records from congress.gov and govtrack.us. Include bill number and date.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What they promised</div>
+        <div class="ptext">VERIFY — Add second campaign promise with source URL.</div>
+      </div>
+      <div>
+        <div class="plabel">What they did</div>
+        <div class="ptext">VERIFY — Add corresponding action with congress.gov URL and date.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+    <div class="promise-row">
+      <div>
+        <div class="plabel">What they promised</div>
+        <div class="ptext">VERIFY — Add third promise. Include promises they kept, not just broken ones.</div>
+      </div>
+      <div>
+        <div class="plabel">What they did</div>
+        <div class="ptext">VERIFY — Document kept promises with same rigor as broken ones. Both matter for credibility.</div>
+        <span class="ptag tag-verify">Needs verification</span>
+      </div>
+    </div>
+    <div class="source-line">PRIMARY SOURCES: congress.gov · govtrack.us · C-SPAN.org · opensecrets.org</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Top donors — cross-referenced with votes</div>
+    <div class="donor-row">
+      <div><div class="dname">VERIFY — Top donor industry</div><div class="dindustry">Source: opensecrets.org → search Rep. Steve Scalise</div><span class="dtag">Pending</span></div>
+      <div class="damt"><div class="damt-val">VERIFY</div><div class="dbar-wrap"><div class="dbar" style="width:100%"></div></div></div>
+    </div>
+    <div class="donor-row">
+      <div><div class="dname">VERIFY — Second donor industry</div><div class="dindustry">Cross-reference with committee assignments</div><span class="dtag">Pending</span></div>
+      <div class="damt"><div class="damt-val">VERIFY</div><div class="dbar-wrap"><div class="dbar" style="width:70%"></div></div></div>
+    </div>
+    <div class="donor-row">
+      <div><div class="dname">VERIFY — Third donor industry</div><div class="dindustry">Note any conflict with oversight role</div><span class="dtag">Pending</span></div>
+      <div class="damt"><div class="damt-val">VERIFY</div><div class="dbar-wrap"><div class="dbar" style="width:45%"></div></div></div>
+    </div>
+    <div class="source-line">VERIFY ALL: opensecrets.org/members-of-congress · fec.gov/data/candidate</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Committee seats &amp; leadership role</div>
+    <div class="committee-row"><div>VERIFY — Current assignments from congress.gov member page</div><span class="ctag">Pending</span></div>
+    <div class="committee-row"><div>VERIFY — Note any donor industry that overlaps with committee oversight area</div><span class="ctag">Pending</span></div>
+    <div class="source-line">VERIFY: congress.gov/member/steve-scalise → Committee Assignments tab</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Bills introduced this term</div>
+    <div class="bill-row"><div class="bill-name">VERIFY — Pull from congress.gov Sponsored Legislation tab</div><div class="bill-meta">congress.gov → search Rep. Steve Scalise → filter by Sponsored Legislation → 119th Congress</div><span class="bstatus">Pending</span></div>
+    <div class="bill-row"><div class="bill-name">VERIFY — Add additional bills</div><div class="bill-meta">Include bills that passed AND bills that failed or died in committee</div><span class="bstatus">Pending</span></div>
+    <div class="source-line">VERIFY ALL: congress.gov · govtrack.us</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Net worth while in office</div>
+    <div class="wealth-row"><span class="wyear">2008 — entered office</span><span class="wval">VERIFY — financial disclosure filing</span></div>
+    <div class="wealth-row"><span class="wyear">Most recent filing</span><span class="wval">VERIFY — pull exact range from disclosure</span></div>
+    <div class="source-line">VERIFY: disclosures.house.gov OR senate.gov/senators/financial-disclosures · opensecrets.org/personal-finances</div>
+  </div>
+  <div class="methodology">TRACT methodology: Promise tracking uses documented campaign statements, debate transcripts, and official press releases. Vote records sourced from GovTrack and Congress.gov. Donor data from OpenSecrets and FEC filings. Conflict flags applied when donor industry and committee seat overlap AND a vote on related legislation occurred. No editorial scoring — raw data only. Same methodology applied to every politician regardless of party.</div>
+</div>
+<footer>
+  <div class="footer-logo">TRACT</div>
+  <p class="footer-note">All data sourced from public records. Updated weekly.</p>
+  <ul class="footer-links">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/methodology.html">Methodology</a></li>
+    <li><a href="mailto:editor@usetract.org">Contact</a></li>
+  </ul>
+</footer>
+</body>
+</html>
