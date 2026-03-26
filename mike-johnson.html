@@ -98,7 +98,7 @@
       top: 0;
       z-index: 100;
     }
-    .nav-logo img { height: 40px; display: block; }
+    .nav-logo img { height: 52px; display: block; }
     .nav-right { display: flex; align-items: center; gap: 24px; }
     .nav-link {
       font-family: 'DM Mono', monospace;
@@ -976,7 +976,7 @@
   function renderHero(id, votingStats, donorStats) {
     // Photo
     const wrap = document.getElementById('hero-photo-wrap');
-    const partyClass = id.party && id.party.toLowerCase().startsWith('r') ? 'r' : 'd';
+    const partyClass = id.party && (id.party.toLowerCase().startsWith('r') || id.party.toLowerCase().includes('republican')) ? 'r' : 'd';
     wrap.innerHTML = `
       <img class="hero-photo" src="${esc(id.photo_url)}" alt="${esc(id.name)}"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
@@ -986,15 +986,16 @@
       <div class="party-bar ${partyClass}"></div>`;
 
     // Eyebrow + name
+    const chamberLabel = (id.chamber || '').toLowerCase().includes('house') ? 'U.S. House' : (id.chamber || '').toLowerCase().includes('senate') ? 'U.S. Senate' : id.chamber || '';
     document.getElementById('hero-eyebrow').textContent =
-      `${id.state || ''}${id.district ? ' · District ' + id.district : ''}`;
+      `${chamberLabel} · ${id.state || ''}${id.district ? ' District ' + id.district : ''}`;
     document.getElementById('hero-name').textContent = id.name || '—';
 
     // Tags
     const tags = document.getElementById('hero-tags');
     const tagData = [
       { label: id.party, cls: partyClass === 'r' ? 'party-r' : 'party-d' },
-      { label: id.chamber === 'House' ? 'U.S. House of Representatives' : 'U.S. Senate' },
+      { label: (id.chamber || '').toLowerCase().includes('house') ? 'U.S. House of Representatives' : (id.chamber || '').toLowerCase().includes('senate') ? 'U.S. Senate' : id.chamber },
       { label: id.since ? `Since ${id.since}` : null },
       { label: id.term_end ? `Term Ends ${id.term_end}` : null },
     ];
