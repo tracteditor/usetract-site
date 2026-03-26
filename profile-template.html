@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{FULL_NAME}} — TRACT</title>
+  <link rel="icon" type="image/svg+xml" href="tract-favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:    #0a0a0a;
+      --ink:      #1a1a1a;
+      --warm:     #f5f0e8;
+      --paper:    #faf8f4;
+      --red:      #c8202a;
+      --red-dark: #9e1920;
+      --border:   #d4cfc6;
+      --muted:    #7a7570;
+      --kept:     #2a7a3b;
+      --broken:   #c8202a;
+      --progress: #b07d1a;
+      --noaction: #5a5a6a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--black);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a.logo { display: flex; align-items: center; text-decoration: none; }
+    nav a.logo img { height: 28px; }
+    nav a.back {
+      color: var(--warm);
+      text-decoration: none;
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    nav a.back:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      color: var(--warm);
+      padding: 48px 32px 40px;
+      border-bottom: 4px solid var(--red);
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .hero-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 2px solid #333;
+      flex-shrink: 0;
+      background: #222;
+    }
+    .hero-meta { flex: 1; }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+    .hero-title {
+      font-size: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .tag {
+      background: #222;
+      color: #ccc;
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 4px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+    .tag.party-r { background: #3a1010; color: #f08080; }
+    .tag.party-d { background: #101a3a; color: #80a0f0; }
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .hero-links a {
+      color: var(--muted);
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .hero-links a:hover { color: var(--warm); }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 48px;
+      border-top: 2px solid var(--black);
+      padding-top: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.05em;
+      color: var(--black);
+    }
+
+    /* ── PROMISE CARDS ── */
+    .promise-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .promise-top {
+      background: var(--warm);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .promise-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .promise-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .promise-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .promise-source a { color: var(--red); text-decoration: none; }
+    .promise-source a:hover { text-decoration: underline; }
+    .promise-bottom {
+      padding: 14px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: #fff;
+    }
+    .verdict {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .verdict.kept     { background: #e8f5eb; color: var(--kept); }
+    .verdict.broken   { background: #fdecea; color: var(--broken); }
+    .verdict.progress { background: #fef8e6; color: var(--progress); }
+    .verdict.noaction { background: #f0f0f4; color: var(--noaction); }
+    .promise-record {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .promise-record a { color: var(--red); font-size: 12px; font-family: 'IBM Plex Mono', monospace; }
+
+    /* ── DATA TABLE ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: var(--black);
+      color: var(--warm);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--warm); }
+    .data-table a {
+      color: var(--red);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-decoration: none;
+    }
+    .data-table a:hover { text-decoration: underline; }
+
+    /* ── VOTE BADGE ── */
+    .vote-yes   { color: var(--kept);     font-weight: 600; }
+    .vote-no    { color: var(--broken);   font-weight: 600; }
+    .vote-other { color: var(--noaction); font-weight: 600; }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 20px;
+      min-width: 140px;
+    }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--black);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── LEGAL / FLAG CARDS ── */
+    .flag-card {
+      border-left: 4px solid var(--red);
+      background: #fff8f8;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .flag-card.clear {
+      border-left-color: var(--kept);
+      background: #f8fff9;
+    }
+    .flag-card.neutral {
+      border-left-color: var(--muted);
+      background: var(--warm);
+    }
+    .flag-type {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .flag-detail {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .flag-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .flag-source a { color: var(--red); text-decoration: none; }
+    .flag-source a:hover { text-decoration: underline; }
+
+    /* ── GOOD RECORD CARDS ── */
+    .good-card {
+      border-left: 4px solid var(--kept);
+      background: #f8fff9;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .good-type {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .good-detail {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .good-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .good-source a { color: var(--kept); text-decoration: none; }
+    .good-source a:hover { text-decoration: underline; }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 16px;
+      background: var(--warm);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+
+    /* ── UNVERIFIED BANNER ── */
+    .unverified-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #664d03;
+      margin-bottom: 32px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: var(--muted);
+      text-align: center;
+      padding: 24px 32px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    footer a { color: var(--red); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .hero-inner { flex-direction: column; gap: 20px; }
+      .hero-name  { font-size: 38px; }
+      .container  { padding: 24px 16px 60px; }
+      nav         { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <img src="tract-logo-dark.svg" alt="TRACT" />
+  </a>
+  <a class="back" href="politicians.html">← All Politicians</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <img class="hero-photo" src="{{PHOTO_URL}}" alt="{{FULL_NAME}}" onerror="this.style.display='none'"/>
+    <div class="hero-meta">
+      <div class="hero-name">{{FULL_NAME}}</div>
+      <div class="hero-title">{{CHAMBER}} · {{STATE}}{{DISTRICT}}</div>
+      <div class="hero-tags">
+        <span class="tag party-{{PARTY_CLASS}}">{{PARTY}}</span>
+        <span class="tag">{{CHAMBER_FULL}}</span>
+        <span class="tag">In Office Since {{SINCE}}</span>
+        <span class="tag">Term Ends {{TERM_END}}</span>
+      </div>
+      <div class="hero-links">
+        <a href="{{OFFICIAL_URL}}" target="_blank">Official Site ↗</a>
+        <a href="{{TWITTER_URL}}" target="_blank">Twitter/X ↗</a>
+        <a href="{{CONGRESS_URL}}" target="_blank">Congress.gov ↗</a>
+        <a href="{{FEC_URL}}" target="_blank">FEC Profile ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- UNVERIFIED BANNER — remove when profile is fully verified -->
+  <div class="unverified-banner" id="unverified-banner">
+    ⚠ This profile contains placeholder data pending full verification. Data will be updated as sources are confirmed.
+  </div>
+
+  <!-- ── SECTION 1: PROMISES VS RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <span class="section-title">Promises vs Record</span>
+    </div>
+    <div id="promises-container">
+      <!-- Populated by CMS -->
+      {{PROMISES_HTML}}
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: VOTING RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <span class="section-title">Voting Record</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">{{ATTENDANCE_PCT}}%</div>
+        <div class="stat-label">Attendance Rate</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">{{MISSED_VOTES}}</div>
+        <div class="stat-label">Missed Votes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">{{TOTAL_VOTES}}</div>
+        <div class="stat-label">Total Votes Cast</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Bill</th>
+          <th>Description</th>
+          <th>Vote</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="votes-body">
+        {{VOTES_HTML}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 3: DONORS ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <span class="section-title">Campaign Donors</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">{{TOTAL_RAISED}}</div>
+        <div class="stat-label">Total Raised (Cycle)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">{{PAC_PCT}}%</div>
+        <div class="stat-label">From PACs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">{{INDIVIDUAL_PCT}}%</div>
+        <div class="stat-label">From Individuals</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Contributor</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="donors-body">
+        {{DONORS_HTML}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 4: COMMITTEES ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <span class="section-title">Committee Assignments</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Committee</th>
+          <th>Role</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="committees-body">
+        {{COMMITTEES_HTML}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 5: FINANCIAL ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <span class="section-title">Financial Disclosure</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">{{NET_WORTH}}</div>
+        <div class="stat-label">Est. Net Worth</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Stock / Asset</th>
+          <th>Transaction</th>
+          <th>Amount</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="financial-body">
+        {{FINANCIAL_HTML}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 6: CONFLICTS OF INTEREST ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <span class="section-title">Conflicts of Interest</span>
+    </div>
+    <div id="conflicts-container">
+      {{CONFLICTS_HTML}}
+    </div>
+  </div>
+
+  <!-- ── SECTION 7: FOREIGN CONNECTIONS ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <span class="section-title">Foreign Connections</span>
+    </div>
+    <div id="foreign-container">
+      {{FOREIGN_HTML}}
+    </div>
+  </div>
+
+  <!-- ── SECTION 8: LEGAL RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <span class="section-title">Legal Record</span>
+    </div>
+    <div id="legal-container">
+      {{LEGAL_HTML}}
+    </div>
+  </div>
+
+  <!-- ── SECTION 9: FEDERAL COURT DOCUMENT REFERENCES ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <span class="section-title">Federal Court Document References</span>
+    </div>
+    <div id="court-container">
+      {{COURT_HTML}}
+    </div>
+  </div>
+
+  <!-- ── SECTION 10: PUBLIC SERVICE RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <span class="section-title">Public Service Record</span>
+    </div>
+    <div id="public-service-container">
+      {{PUBLIC_SERVICE_HTML}}
+    </div>
+  </div>
+
+  <!-- ── LAST VERIFIED ── -->
+  <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);">
+      Last verified: {{LAST_VERIFIED}} · Sources on file at editor@usetract.org · <a href="mailto:editor@usetract.org" style="color: var(--red); text-decoration: none;">Submit a correction</a>
+    </span>
+  </div>
+
+</div>
+
+<footer>
+  TRACT is operated by Black Frame Group LLC · <a href="mailto:editor@usetract.org">editor@usetract.org</a> · Data sourced from public federal records
+</footer>
+
+</body>
+</html>
