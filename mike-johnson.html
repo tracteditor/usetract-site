@@ -98,7 +98,7 @@
       top: 0;
       z-index: 100;
     }
-    .nav-logo img { height: 26px; display: block; }
+    .nav-logo img { height: 40px; display: block; }
     .nav-right { display: flex; align-items: center; gap: 24px; }
     .nav-link {
       font-family: 'DM Mono', monospace;
@@ -987,14 +987,14 @@
 
     // Eyebrow + name
     document.getElementById('hero-eyebrow').textContent =
-      `${id.chamber || ''} · ${id.state || ''}${id.district ? ' District ' + id.district : ''}`;
+      `${id.state || ''}${id.district ? ' · District ' + id.district : ''}`;
     document.getElementById('hero-name').textContent = id.name || '—';
 
     // Tags
     const tags = document.getElementById('hero-tags');
     const tagData = [
       { label: id.party, cls: partyClass === 'r' ? 'party-r' : 'party-d' },
-      { label: id.chamber === 'House' ? 'U.S. House' : 'U.S. Senate' },
+      { label: id.chamber === 'House' ? 'U.S. House of Representatives' : 'U.S. Senate' },
       { label: id.since ? `Since ${id.since}` : null },
       { label: id.term_end ? `Term Ends ${id.term_end}` : null },
     ];
