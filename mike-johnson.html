@@ -1,312 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mike Johnson — TRACT</title>
-<link rel="icon" type="image/svg+xml" href="/tract-favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --black: #0e0e0e; --white: #f5f3ee; --ink: #1a1a1a; --muted: #6b6b6b;
-    --faint: #e8e5df; --accent: #c8392b; --green: #2d6a4f; --green-light: #edf7f1;
-    --amber: #b45309; --amber-light: #fef3c7; --red-light: #fdf0ef;
-    --border: rgba(0,0,0,0.1); --serif: 'DM Serif Display', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-  body { font-family: var(--sans); background: var(--white); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  nav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-  .nav-logo { font-family: var(--serif); font-size: 22px; letter-spacing: 0.08em; color: var(--ink); text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--ink); }
-  .back-link { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 0; }
-  .back-link a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .back-link a:hover { color: var(--ink); }
-  .profile { max-width: 860px; margin: 0 auto; padding: 2rem; }
-  .header-card { border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: flex-start; }
-  .avatar { width: 64px; height: 64px; border-radius: 50%; background: #fdf0ef; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; color: var(--accent); flex-shrink: 0; }
-  .header-info h1 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); }
-  .header-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
-  .badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-  .badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 500; }
-  .badge-r { background: #fdf0ef; color: var(--accent); }
-  .badge-n { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
-  .badge-warn { background: var(--amber-light); color: var(--amber); }
-  .badge-clean { background: var(--green-light); color: var(--green); }
-  .methodology { font-size: 12px; color: var(--muted); background: #f9f7f3; border-radius: 4px; padding: 10px 14px; margin-top: 1rem; line-height: 1.6; border-left: 3px solid var(--faint); }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-bottom: 1rem; }
-  .stat { background: #f9f7f3; border-radius: 4px; padding: 14px; }
-  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-  .stat-value { font-size: 22px; font-weight: 500; color: var(--ink); margin-top: 4px; }
-  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .section { border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-  .section-title { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
-  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; font-style: italic; }
-  .promise-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 12px 0; border-bottom: 1px solid var(--faint); }
-  .promise-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .plabel { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
-  .ptext { font-size: 13px; color: var(--ink); line-height: 1.5; }
-  .ptag { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 100px; margin-top: 6px; font-weight: 500; }
-  .tag-broken { background: #fdf0ef; color: var(--accent); }
-  .tag-kept { background: var(--green-light); color: var(--green); }
-  .tag-unclear { background: var(--amber-light); color: var(--amber); }
-  .tag-verify { background: #f0ede7; color: var(--muted); border: 1px dashed var(--muted); }
-  .donor-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--faint); }
-  .donor-row:last-child { border-bottom: none; }
-  .dname { font-size: 13px; color: var(--ink); font-weight: 500; }
-  .dindustry { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .dtag { font-size: 10px; padding: 2px 8px; border-radius: 100px; display: inline-block; margin-top: 4px; font-weight: 500; }
-  .dtag-conflict { background: var(--amber-light); color: var(--amber); }
-  .dtag-clean { background: var(--green-light); color: var(--green); }
-  .damt { text-align: right; }
-  .damt-val { font-size: 14px; font-weight: 500; color: var(--ink); }
-  .dbar-wrap { width: 80px; height: 3px; background: var(--faint); border-radius: 2px; margin-top: 5px; margin-left: auto; }
-  .dbar { height: 3px; border-radius: 2px; background: var(--ink); }
-  .committee-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--faint); font-size: 13px; color: var(--ink); }
-  .committee-row:last-child { border-bottom: none; }
-  .ctag { font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; white-space: nowrap; margin-left: 10px; }
-  .ctag-conflict { background: var(--amber-light); color: var(--amber); }
-  .ctag-clean { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
-  .bill-row { padding: 10px 0; border-bottom: 1px solid var(--faint); }
-  .bill-row:last-child { border-bottom: none; }
-  .bill-name { font-size: 13px; color: var(--ink); }
-  .bill-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
-  .bstatus { display: inline-block; font-size: 10px; padding: 2px 9px; border-radius: 100px; font-weight: 500; margin-top: 5px; }
-  .bs-pass { background: var(--green-light); color: var(--green); }
-  .bs-fail { background: #fdf0ef; color: var(--accent); }
-  .bs-pend { background: #f0ede7; color: var(--muted); border: 1px solid var(--border); }
-  .wealth-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--faint); font-size: 13px; }
-  .wealth-row:last-child { border-bottom: none; }
-  .wyear { color: var(--muted); }
-  .wval { font-weight: 500; color: var(--ink); }
-  .source-line { font-size: 11px; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--faint); }
-  .verify-banner { background: var(--amber-light); border: 1px solid #f0d090; border-radius: 4px; padding: 10px 14px; font-size: 12px; color: var(--amber); margin-bottom: 1rem; }
-  footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-  .footer-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); letter-spacing: 0.06em; }
-  .footer-note { font-size: 12px; color: var(--muted); max-width: 400px; }
-  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
-  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
-  .footer-links a:hover { color: var(--ink); }
-  @media (max-width: 600px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .promise-row { grid-template-columns: 1fr; }
-    .header-card { flex-direction: column; }
-    nav { padding: 0 1rem; }
-    .nav-links { display: none; }
-    .profile { padding: 1rem; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mike Johnson — TRACT</title>
+  <link rel="icon" type="image/svg+xml" href="tract-favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:    #0a0a0a;
+      --ink:      #1a1a1a;
+      --warm:     #f5f0e8;
+      --paper:    #faf8f4;
+      --red:      #c8202a;
+      --red-dark: #9e1920;
+      --border:   #d4cfc6;
+      --muted:    #7a7570;
+      --kept:     #2a7a3b;
+      --broken:   #c8202a;
+      --progress: #b07d1a;
+      --noaction: #5a5a6a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--black);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a.logo { display: flex; align-items: center; text-decoration: none; }
+    nav a.logo img { height: 28px; }
+    nav a.back {
+      color: var(--warm);
+      text-decoration: none;
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    nav a.back:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      color: var(--warm);
+      padding: 48px 32px 40px;
+      border-bottom: 4px solid var(--red);
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .hero-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 2px solid #333;
+      flex-shrink: 0;
+      background: #222;
+    }
+    .hero-meta { flex: 1; }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+    .hero-title {
+      font-size: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .tag {
+      background: #222;
+      color: #ccc;
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 4px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+    .tag.party-r { background: #3a1010; color: #f08080; }
+    .tag.party-d { background: #101a3a; color: #80a0f0; }
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .hero-links a {
+      color: var(--muted);
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .hero-links a:hover { color: var(--warm); }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 48px;
+      border-top: 2px solid var(--black);
+      padding-top: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.05em;
+      color: var(--black);
+    }
+
+    /* ── PROMISE CARDS ── */
+    .promise-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .promise-top {
+      background: var(--warm);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .promise-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .promise-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .promise-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .promise-source a { color: var(--red); text-decoration: none; }
+    .promise-source a:hover { text-decoration: underline; }
+    .promise-bottom {
+      padding: 14px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: #fff;
+    }
+    .verdict {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .verdict.kept     { background: #e8f5eb; color: var(--kept); }
+    .verdict.broken   { background: #fdecea; color: var(--broken); }
+    .verdict.progress { background: #fef8e6; color: var(--progress); }
+    .verdict.noaction { background: #f0f0f4; color: var(--noaction); }
+    .promise-record {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .promise-record a { color: var(--red); font-size: 12px; font-family: 'IBM Plex Mono', monospace; }
+
+    /* ── DATA TABLE ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: var(--black);
+      color: var(--warm);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--warm); }
+    .data-table a {
+      color: var(--red);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-decoration: none;
+    }
+    .data-table a:hover { text-decoration: underline; }
+
+    /* ── VOTE BADGE ── */
+    .vote-yes   { color: var(--kept);     font-weight: 600; }
+    .vote-no    { color: var(--broken);   font-weight: 600; }
+    .vote-other { color: var(--noaction); font-weight: 600; }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 20px;
+      min-width: 140px;
+    }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--black);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── LEGAL / FLAG CARDS ── */
+    .flag-card {
+      border-left: 4px solid var(--red);
+      background: #fff8f8;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .flag-card.clear {
+      border-left-color: var(--kept);
+      background: #f8fff9;
+    }
+    .flag-card.neutral {
+      border-left-color: var(--muted);
+      background: var(--warm);
+    }
+    .flag-type {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .flag-detail {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .flag-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .flag-source a { color: var(--red); text-decoration: none; }
+    .flag-source a:hover { text-decoration: underline; }
+
+    /* ── GOOD RECORD CARDS ── */
+    .good-card {
+      border-left: 4px solid var(--kept);
+      background: #f8fff9;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .good-type {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .good-detail {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .good-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .good-source a { color: var(--kept); text-decoration: none; }
+    .good-source a:hover { text-decoration: underline; }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 16px;
+      background: var(--warm);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+
+    /* ── UNVERIFIED BANNER ── */
+    .unverified-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #664d03;
+      margin-bottom: 32px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: var(--muted);
+      text-align: center;
+      padding: 24px 32px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    footer a { color: var(--red); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .hero-inner { flex-direction: column; gap: 20px; }
+      .hero-name  { font-size: 38px; }
+      .container  { padding: 24px 16px 60px; }
+      nav         { padding: 0 16px; }
+    }
+  </style>
 </head>
 <body>
+
 <nav>
-  <a href="/index.html" class="nav-logo"><img src="/tract-logo.svg" alt="TRACT" style="height:36px; display:block;"></a>
-  <ul class="nav-links">
-    <li><a href="/about.html">About</a></li>
-    <li><a href="/methodology.html">Methodology</a></li>
-    <li><a href="https://www.buymeacoffee.com" target="_blank">Support TRACT</a></li>
-  </ul>
+  <a class="logo" href="index.html">
+    <img src="tract-logo-dark.svg" alt="TRACT" />
+  </a>
+  <a class="back" href="politicians.html">← All Politicians</a>
 </nav>
 
-<div class="back-link"><a href="/index.html">← Back to search</a></div>
-
-<div class="profile">
-
-  <div class="verify-banner">⚠ This profile contains placeholder data pending verification. All figures must be confirmed against primary sources before this page is published publicly. See TRACT Verification Master spreadsheet.</div>
-
-  <div class="header-card">
-    <div class="avatar">MJ</div>
-    <div class="header-info">
-      <h1>Rep. Mike Johnson</h1>
-      <div class="header-sub">Speaker of the House · U.S. House of Representatives · Louisiana · 4th District · Republican</div>
-      <div class="badges">
-        <span class="badge badge-r">Republican</span>
-        <span class="badge badge-n">Speaker since Oct 2023</span>
-        <!-- VERIFY: years in office since first elected -->
-        <span class="badge badge-n">In office since 2017</span>
-        <span class="badge badge-warn">Donor conflicts flagged</span>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <img class="hero-photo" src="https://bioguide.congress.gov/bioguide/photo/J/J000299.jpg" alt="Mike Johnson" onerror="this.style.display='none'"/>
+    <div class="hero-meta">
+      <div class="hero-name">Mike Johnson</div>
+      <div class="hero-title"> · Louisiana · District 4</div>
+      <div class="hero-tags">
+        <span class="tag party-d"></span>
+        <span class="tag">U.S. Senate</span>
+        <span class="tag">In Office Since —</span>
+        <span class="tag">Term Ends —</span>
+      </div>
+      <div class="hero-links">
+        <a href="https://mikejohnson.house.gov" target="_blank">Official Site ↗</a>
+        <a href="https://x.com/SpeakerJohnson" target="_blank">Twitter/X ↗</a>
+        <a href="https://www.congress.gov/member/J000299" target="_blank">Congress.gov ↗</a>
+        <a href="https://www.fec.gov/data/candidate/H6LA04306/" target="_blank">FEC Profile ↗</a>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="methodology">All data sourced from public records. Promise gaps reflect documented campaign statements versus official vote record. This profile shows both where Rep. Johnson kept his word and where the record diverges — the voter decides what that means. Same methodology applied to every politician regardless of party.</div>
+<div class="container">
 
-  <!-- VERIFY ALL STATS against primary sources -->
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-label">Attendance</div>
-      <!-- VERIFY: govtrack.us -->
-      <div class="stat-value">89%</div>
-      <div class="stat-sub">House avg: 92%</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Promises kept</div>
-      <!-- VERIFY: from promise tracking -->
-      <div class="stat-value">—</div>
-      <div class="stat-sub">pending verification</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Promises broken</div>
-      <div class="stat-value">—</div>
-      <div class="stat-sub">pending verification</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Net worth change</div>
-      <!-- VERIFY: house.gov financial disclosures -->
-      <div class="stat-value">—</div>
-      <div class="stat-sub">pending verification</div>
-    </div>
+  <!-- UNVERIFIED BANNER — remove when profile is fully verified -->
+  <div class="unverified-banner" id="unverified-banner">
+    ⚠ This profile contains placeholder data pending full verification. Data will be updated as sources are confirmed.
   </div>
 
+  <!-- ── SECTION 1: PROMISES VS RECORD ── -->
   <div class="section">
-    <div class="section-title">Campaign promises vs. vote record</div>
-    <div class="section-note">Showing both fulfilled and broken promises. Voter decides what matters.</div>
-
-    <!-- VERIFY: Find exact quotes from primary sources before publishing -->
-    <div class="promise-row">
-      <div>
-        <div class="plabel">What he promised</div>
-        <div class="ptext">"I will fight to cut spending and reduce the national debt."</div>
-      </div>
-      <div>
-        <div class="plabel">What he did</div>
-        <!-- VERIFY: congress.gov vote record -->
-        <div class="ptext">Voted yes on continuing resolution funding government at elevated spending levels. Presided over debt ceiling increase as Speaker.</div>
-        <span class="ptag tag-verify">Needs verification</span>
-      </div>
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <span class="section-title">Promises vs Record</span>
     </div>
-
-    <div class="promise-row">
-      <div>
-        <div class="plabel">What he promised</div>
-        <div class="ptext">"I am committed to election integrity and ensuring every legal vote counts."</div>
-      </div>
-      <div>
-        <div class="plabel">What he did</div>
-        <!-- VERIFY: congress.gov -->
-        <div class="ptext">Voted against certifying 2020 presidential election results on January 7, 2021. Led legal effort to challenge election results in multiple states.</div>
-        <span class="ptag tag-verify">Needs verification</span>
-      </div>
+    <div id="promises-container">
+      <!-- Populated by CMS -->
+      <div class="empty">No promises recorded yet. Add to the Promises tab.</div>
     </div>
-
-    <div class="promise-row">
-      <div>
-        <div class="plabel">What he promised</div>
-        <div class="ptext">"I will defend the Constitution and protect religious liberty."</div>
-      </div>
-      <div>
-        <div class="plabel">What he did</div>
-        <!-- VERIFY: Find specific legislation -->
-        <div class="ptext">Sponsored Religious Freedom bills. Consistent record on First Amendment legislation. Verify specific bills on congress.gov.</div>
-        <span class="ptag tag-verify">Needs verification</span>
-      </div>
-    </div>
-
-    <div class="promise-row">
-      <div>
-        <div class="plabel">What he promised</div>
-        <div class="ptext">"I will support Israel and our allies."</div>
-      </div>
-      <div>
-        <div class="plabel">What he did</div>
-        <!-- VERIFY: specific aid votes -->
-        <div class="ptext">Brought $95B foreign aid package to House floor for vote Apr 2024 including Israel aid — passed despite opposition from some in own party.</div>
-        <span class="ptag tag-verify">Needs verification</span>
-      </div>
-    </div>
-
-    <div class="source-line">Sources to verify: congress.gov · govtrack.us · C-SPAN archives · campaign statements</div>
   </div>
 
+  <!-- ── SECTION 2: VOTING RECORD ── -->
   <div class="section">
-    <div class="section-title">Top donors — cross-referenced with votes</div>
-    <!-- VERIFY ALL FIGURES: opensecrets.org/members-of-congress/mike-johnson -->
-    <div class="donor-row">
-      <div>
-        <div class="dname">Conservative/Republican PACs</div>
-        <div class="dindustry">Ideological donors — primary funding source</div>
-        <span class="dtag dtag-clean">Verify on OpenSecrets</span>
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <span class="section-title">Voting Record</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">—%</div>
+        <div class="stat-label">Attendance Rate</div>
       </div>
-      <div class="damt">
-        <div class="damt-val">VERIFY</div>
-        <div class="dbar-wrap"><div class="dbar" style="width:100%"></div></div>
+      <div class="stat-box">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Missed Votes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Total Votes Cast</div>
       </div>
     </div>
-    <div class="donor-row">
-      <div>
-        <div class="dname">Oil &amp; Gas industry</div>
-        <div class="dindustry">Louisiana energy sector</div>
-        <span class="dtag dtag-conflict">Verify conflict</span>
-      </div>
-      <div class="damt">
-        <div class="damt-val">VERIFY</div>
-        <div class="dbar-wrap"><div class="dbar" style="width:70%"></div></div>
-      </div>
-    </div>
-    <div class="donor-row">
-      <div>
-        <div class="dname">Real estate industry</div>
-        <div class="dindustry">No direct committee overlap — verify</div>
-        <span class="dtag dtag-clean">Verify on OpenSecrets</span>
-      </div>
-      <div class="damt">
-        <div class="damt-val">VERIFY</div>
-        <div class="dbar-wrap"><div class="dbar" style="width:50%"></div></div>
-      </div>
-    </div>
-    <div class="source-line">VERIFY ALL: opensecrets.org/members-of-congress/mike-johnson/summary · fec.gov</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Bill</th>
+          <th>Description</th>
+          <th>Vote</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="votes-body">
+        <tr><td colspan="5" style="color:#999;font-style:italic;padding:16px;">No votes recorded yet.</td></tr>
+      </tbody>
+    </table>
   </div>
 
+  <!-- ── SECTION 3: DONORS ── -->
   <div class="section">
-    <div class="section-title">Committee seats &amp; leadership role</div>
-    <!-- VERIFY: congress.gov/member/mike-johnson -->
-    <div class="committee-row">
-      <div>Speaker of the House — presides over full House, controls legislative agenda</div>
-      <span class="ctag ctag-clean">Verify current</span>
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <span class="section-title">Campaign Donors</span>
     </div>
-    <div class="committee-row">
-      <div>As Speaker, does not serve on standing committees — verify on congress.gov</div>
-      <span class="ctag ctag-clean">Verify</span>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Total Raised (Cycle)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">—%</div>
+        <div class="stat-label">From PACs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">—%</div>
+        <div class="stat-label">From Individuals</div>
+      </div>
     </div>
-    <div class="source-line">VERIFY: congress.gov/member/mike-johnson/J000299</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Contributor</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="donors-body">
+        <tr><td colspan="5" style="color:#999;font-style:italic;padding:16px;">No donor data yet.</td></tr>
+      </tbody>
+    </table>
   </div>
 
+  <!-- ── SECTION 4: COMMITTEES ── -->
   <div class="section">
-    <div class="section-title">Bills introduced this term</div>
-    <!-- VERIFY ALL: govtrack.us / congress.gov -->
-    <div class="bill-row">
-      <div class="bill-name">VERIFY — Pull from congress.gov sponsored legislation</div>
-      <div class="bill-meta">Source: congress.gov/member/mike-johnson/J000299 → Sponsored Legislation tab</div>
-      <span class="bstatus bs-pend">Pending verification</span>
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <span class="section-title">Committee Assignments</span>
     </div>
-    <div class="source-line">VERIFY ALL: govtrack.us · congress.gov</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Committee</th>
+          <th>Role</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="committees-body">
+        <tr>
+    <td>Speaker of the House</td>
+    <td>Former</td>
+    <td><a href="https://www.congress.gov/member/J000299" target="_blank">Source ↗</a></td>
+  </tr>
+<tr>
+    <td>Speaker of the House</td>
+    <td>Active</td>
+    <td><a href="https://www.congress.gov/member/J000299" target="_blank">Source ↗</a></td>
+  </tr>
+      </tbody>
+    </table>
   </div>
 
+  <!-- ── SECTION 5: FINANCIAL ── -->
   <div class="section">
-    <div class="section-title">Net worth while in office</div>
-    <!-- VERIFY: disclosures.house.gov -->
-    <div class="wealth-row"><span class="wyear">2017 — entered office</span><span class="wval">VERIFY — disclosures.house.gov</span></div>
-    <div class="wealth-row"><span class="wyear">2019</span><span class="wval">VERIFY</span></div>
-    <div class="wealth-row"><span class="wyear">2021</span><span class="wval">VERIFY</span></div>
-    <div class="wealth-row"><span class="wyear">2023</span><span class="wval">VERIFY</span></div>
-    <div class="wealth-row"><span class="wyear">2024</span><span class="wval">VERIFY</span></div>
-    <div class="source-line">VERIFY ALL: disclosures.house.gov · opensecrets.org/personal-finances/mike-johnson</div>
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <span class="section-title">Financial Disclosure</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value">— Pending manual entry —</div>
+        <div class="stat-label">Est. Net Worth</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Stock / Asset</th>
+          <th>Transaction</th>
+          <th>Amount</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="financial-body">
+        
+      </tbody>
+    </table>
   </div>
 
-  <div class="methodology">TRACT methodology: Promise tracking uses documented campaign statements, debate transcripts, and official press releases. Vote records sourced from GovTrack and Congress.gov. Donor data from OpenSecrets and FEC filings. Conflict flags applied when donor industry and committee seat overlap AND a vote on related legislation occurred. No editorial scoring — raw data only. Same methodology applied to every politician regardless of party.</div>
+  <!-- ── SECTION 6: CONFLICTS OF INTEREST ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <span class="section-title">Conflicts of Interest</span>
+    </div>
+    <div id="conflicts-container">
+      <div class="flag-card">
+      <div class="flag-type">Lobbying · ASIS INTERNATIONAL</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/86260004-84e7-46e3-9cfa-76edae508768/" target="_blank">https://lda.senate.gov/filings/86260004-84e7-46e3-9cfa-76edae508768/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/b61d5fc3-fe25-4e1e-b537-1d70553745e0/" target="_blank">https://lda.senate.gov/filings/b61d5fc3-fe25-4e1e-b537-1d70553745e0/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION OF UNIVERSITY WOMEN</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/5a725b27-b6cf-4661-9a36-39a9aa21433d/" target="_blank">https://lda.senate.gov/filings/5a725b27-b6cf-4661-9a36-39a9aa21433d/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · THE DUBERSTEIN GROUP INC.</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4d455134-6e20-40d6-9aee-88d7d9a81adc/" target="_blank">https://lda.senate.gov/filings/4d455134-6e20-40d6-9aee-88d7d9a81adc/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/cb0d3d13-4cc0-49bc-91d1-a0666285830e/" target="_blank">https://lda.senate.gov/filings/cb0d3d13-4cc0-49bc-91d1-a0666285830e/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION OF UNIVERSITY WOMEN</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/60c7368c-d8a9-4701-9a79-4bfc4ab81c69/" target="_blank">https://lda.senate.gov/filings/60c7368c-d8a9-4701-9a79-4bfc4ab81c69/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · MAGAZINE PUBLISHERS OF AMERICA</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/3f31c5d8-6b6f-4166-a70e-a472802ddbaa/" target="_blank">https://lda.senate.gov/filings/3f31c5d8-6b6f-4166-a70e-a472802ddbaa/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN HUMANE ASSOCIATION</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/89453b1d-9ac0-42e3-ab39-1b8ec4e4faff/" target="_blank">https://lda.senate.gov/filings/89453b1d-9ac0-42e3-ab39-1b8ec4e4faff/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/56b382d1-f218-45ee-9c77-cb2c5eb107f0/" target="_blank">https://lda.senate.gov/filings/56b382d1-f218-45ee-9c77-cb2c5eb107f0/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · DENNY MILLER ASSOCIATES</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4d318f15-8b83-448a-bc6c-6f1f09a7330b/" target="_blank">https://lda.senate.gov/filings/4d318f15-8b83-448a-bc6c-6f1f09a7330b/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · WEXLER | WALKER, A UNIT OF HILL+KNOWLTON STRATEGIES, LLC</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/ddc26689-0cfc-42a7-a8c7-aca82e42b5d5/" target="_blank">https://lda.senate.gov/filings/ddc26689-0cfc-42a7-a8c7-aca82e42b5d5/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · INTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/6854a6dc-05ab-4b75-897b-88d96f0a69a9/" target="_blank">https://lda.senate.gov/filings/6854a6dc-05ab-4b75-897b-88d96f0a69a9/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · THE AMERICAN PHYSIOLOGICAL SOCIETY</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/a8f36c02-c547-4995-b8be-7a10b0530667/" target="_blank">https://lda.senate.gov/filings/a8f36c02-c547-4995-b8be-7a10b0530667/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · EXPRESS SCRIPTS, INC.</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/12ccb299-e0ba-481d-bba5-cfd23ff306b4/" target="_blank">https://lda.senate.gov/filings/12ccb299-e0ba-481d-bba5-cfd23ff306b4/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · DPV SOLUTIONS, LLC</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/7aff63ac-3661-4551-9caf-7f848774630f/" target="_blank">https://lda.senate.gov/filings/7aff63ac-3661-4551-9caf-7f848774630f/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · MATTOON &amp; ASSOCIATES, LLC</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/2d4425f6-b45a-404c-b287-48af56de682c/" target="_blank">https://lda.senate.gov/filings/2d4425f6-b45a-404c-b287-48af56de682c/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · PENNSYLVANIA FARM BUREAU</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/a042c7e6-438e-497b-8289-e84e566d0a11/" target="_blank">https://lda.senate.gov/filings/a042c7e6-438e-497b-8289-e84e566d0a11/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · CAROLYN C. CHANEY &amp; ASSOCIATES, INC.</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/86f76d89-3df4-4f3f-a454-e0c56fa35e79/" target="_blank">https://lda.senate.gov/filings/86f76d89-3df4-4f3f-a454-e0c56fa35e79/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMALGAMATED TRANSIT UNION</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/14c547e8-b5d2-4049-accf-7b48f4ef30bb/" target="_blank">https://lda.senate.gov/filings/14c547e8-b5d2-4049-accf-7b48f4ef30bb/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · AMALGAMATED TRANSIT UNION</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/fb377c1b-c5ac-49b1-ac4d-689496ae1fec/" target="_blank">https://lda.senate.gov/filings/fb377c1b-c5ac-49b1-ac4d-689496ae1fec/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · U.S. BEET SUGAR ASSOCIATION</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/7222ec67-0bda-4677-8748-1865857cd035/" target="_blank">https://lda.senate.gov/filings/7222ec67-0bda-4677-8748-1865857cd035/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · RYBERG AND SMITH, L.L.C.</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/21b7da9f-d57a-44d5-8029-6e5c18a1410f/" target="_blank">https://lda.senate.gov/filings/21b7da9f-d57a-44d5-8029-6e5c18a1410f/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · MATTOON &amp; ASSOCIATES, LLC</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/af24d99f-4524-4a82-9ecf-f8abc9bc1ebf/" target="_blank">https://lda.senate.gov/filings/af24d99f-4524-4a82-9ecf-f8abc9bc1ebf/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · SONOSKY, CHAMBERS, SACHSE, ENDRESON &amp; PERRY, LLP</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4f43c715-065a-4e27-b87a-6306d1c7eeb8/" target="_blank">https://lda.senate.gov/filings/4f43c715-065a-4e27-b87a-6306d1c7eeb8/</a></div>
+    </div>
+<div class="flag-card">
+      <div class="flag-type">Lobbying · THE AMERICAN PHYSIOLOGICAL SOCIETY</div>
+      <div class="flag-detail">Client: . Filing: MM</div>
+      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/847e0a9d-f395-46d4-9f4f-08e309d3c4f5/" target="_blank">https://lda.senate.gov/filings/847e0a9d-f395-46d4-9f4f-08e309d3c4f5/</a></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 7: FOREIGN CONNECTIONS ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <span class="section-title">Foreign Connections</span>
+    </div>
+    <div id="foreign-container">
+      <div class="flag-card clear">
+      <div class="flag-type">Status</div>
+      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 8: LEGAL RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <span class="section-title">Legal Record</span>
+    </div>
+    <div id="legal-container">
+      <div class="flag-card clear">
+      <div class="flag-type">Status</div>
+      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 9: FEDERAL COURT DOCUMENT REFERENCES ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <span class="section-title">Federal Court Document References</span>
+    </div>
+    <div id="court-container">
+      <div class="flag-card clear">
+      <div class="flag-type">Status</div>
+      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 10: PUBLIC SERVICE RECORD ── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <span class="section-title">Public Service Record</span>
+    </div>
+    <div id="public-service-container">
+      <div class="good-card" style="border-left-color:var(--muted);background:var(--warm);">
+      <div class="good-type">Status</div>
+      <div class="good-detail">No verified public service record found as of March 26, 2026.</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── LAST VERIFIED ── -->
+  <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);">
+      Last verified: March 26, 2026 · Sources on file at editor@usetract.org · <a href="mailto:editor@usetract.org" style="color: var(--red); text-decoration: none;">Submit a correction</a>
+    </span>
+  </div>
 
 </div>
 
 <footer>
-  <div class="footer-logo">TRACT</div>
-  <p class="footer-note">All data sourced from public records. Updated weekly.</p>
-  <ul class="footer-links">
-    <li><a href="/about.html">About</a></li>
-    <li><a href="/methodology.html">Methodology</a></li>
-    <li><a href="mailto:editor@usetract.org">Contact</a></li>
-  </ul>
+  TRACT is operated by Black Frame Group LLC · <a href="mailto:editor@usetract.org">editor@usetract.org</a> · Data sourced from public federal records
 </footer>
+
 </body>
 </html>
