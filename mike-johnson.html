@@ -1,164 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mike Johnson — TRACT</title>
+  <title>Loading — TRACT</title>
   <link rel="icon" type="image/svg+xml" href="tract-favicon.svg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --black:    #0a0a0a;
-      --ink:      #1a1a1a;
-      --warm:     #f5f0e8;
-      --paper:    #faf8f4;
-      --red:      #c8202a;
-      --red-dark: #9e1920;
-      --border:   #d4cfc6;
-      --muted:    #7a7570;
-      --kept:     #2a7a3b;
-      --broken:   #c8202a;
-      --progress: #b07d1a;
-      --noaction: #5a5a6a;
+      --black:      #0d0d0d;
+      --white:      #ffffff;
+      --off-white:  #f7f7f5;
+      --red:        #c8202a;
+      --red-light:  #fdf2f2;
+      --border:     #e2e2de;
+      --border-dark:#c8c8c2;
+      --muted:      #888882;
+      --ink:        #1a1a18;
+      --kept:       #1a6b35;
+      --kept-bg:    #edf7f1;
+      --broken:     #c8202a;
+      --broken-bg:  #fdf2f2;
+      --progress:   #9a6b00;
+      --progress-bg:#fdf8ed;
+      --noaction:   #555550;
+      --noaction-bg:#f4f4f2;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: var(--paper);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      background: var(--white);
       color: var(--ink);
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LOADING ── */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.4s ease;
+    }
+    #loading-screen.hidden { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      width: 120px;
+      margin-bottom: 24px;
+      opacity: 0.9;
+    }
+    .loading-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .loading-bar-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 2px;
+      animation: loading 1.4s ease-in-out infinite;
+    }
+    @keyframes loading {
+      0%   { width: 0%; margin-left: 0%; }
+      50%  { width: 60%; margin-left: 20%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+    .loading-text {
+      margin-top: 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
     }
 
     /* ── NAV ── */
     nav {
       background: var(--black);
-      padding: 0 32px;
+      height: 54px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
+      padding: 0 40px;
       position: sticky;
       top: 0;
       z-index: 100;
     }
-    nav a.logo { display: flex; align-items: center; text-decoration: none; }
-    nav a.logo img { height: 28px; }
-    nav a.back {
-      color: var(--warm);
+    .nav-logo img { height: 26px; display: block; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .nav-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
       text-decoration: none;
-      font-size: 13px;
-      font-family: 'IBM Plex Mono', monospace;
-      letter-spacing: 0.05em;
-      opacity: 0.7;
-      transition: opacity 0.2s;
+      transition: color 0.2s;
     }
-    nav a.back:hover { opacity: 1; }
+    .nav-link:hover { color: rgba(255,255,255,0.9); }
+    .nav-link.active { color: var(--white); }
 
     /* ── HERO ── */
     .hero {
       background: var(--black);
-      color: var(--warm);
-      padding: 48px 32px 40px;
-      border-bottom: 4px solid var(--red);
+      border-bottom: 3px solid var(--red);
+      padding: 56px 40px 48px;
     }
     .hero-inner {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
-      display: flex;
-      gap: 32px;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 36px;
+      align-items: start;
+    }
+    .hero-photo-wrap {
+      position: relative;
     }
     .hero-photo {
-      width: 120px;
-      height: 120px;
-      border-radius: 4px;
+      width: 110px;
+      height: 138px;
       object-fit: cover;
-      border: 2px solid #333;
-      flex-shrink: 0;
+      object-position: top center;
+      border-radius: 2px;
+      display: block;
+      filter: grayscale(20%);
+    }
+    .hero-photo-placeholder {
+      width: 110px;
+      height: 138px;
       background: #222;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .hero-meta { flex: 1; }
-    .hero-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 52px;
-      line-height: 1;
-      letter-spacing: 0.02em;
-      color: #fff;
+    .hero-photo-placeholder svg { opacity: 0.3; }
+    .party-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 0 0 2px 2px;
     }
-    .hero-title {
-      font-size: 14px;
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--red);
-      letter-spacing: 0.1em;
+    .party-bar.r { background: #e05050; }
+    .party-bar.d { background: #5080e0; }
+
+    .hero-content { padding-top: 4px; }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-top: 6px;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+    .hero-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 16px;
     }
     .hero-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 16px;
+      margin-bottom: 20px;
     }
-    .tag {
-      background: #222;
-      color: #ccc;
-      font-size: 12px;
-      font-family: 'IBM Plex Mono', monospace;
-      padding: 4px 10px;
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 5px 10px;
       border-radius: 2px;
-      letter-spacing: 0.05em;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    .tag.party-r { background: #3a1010; color: #f08080; }
-    .tag.party-d { background: #101a3a; color: #80a0f0; }
+    .hero-tag.party-r { background: rgba(200,80,80,0.15); color: #f08080; border-color: rgba(200,80,80,0.3); }
+    .hero-tag.party-d { background: rgba(80,120,220,0.15); color: #80a8f0; border-color: rgba(80,120,220,0.3); }
     .hero-links {
       display: flex;
-      gap: 16px;
-      margin-top: 20px;
+      gap: 20px;
     }
-    .hero-links a {
-      color: var(--muted);
-      font-size: 12px;
-      font-family: 'IBM Plex Mono', monospace;
+    .hero-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.35);
       text-decoration: none;
-      letter-spacing: 0.05em;
       transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    .hero-links a:hover { color: var(--warm); }
+    .hero-link:hover { color: rgba(255,255,255,0.8); }
 
-    /* ── LAYOUT ── */
-    .container {
-      max-width: 900px;
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-top: 4px;
+    }
+    .hero-stat {
+      text-align: right;
+    }
+    .hero-stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-top: 2px;
+    }
+
+    /* ── SECTION NAV ── */
+    .section-nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 54px;
+      z-index: 90;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .section-nav::-webkit-scrollbar { display: none; }
+    .section-nav-inner {
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 40px 32px 80px;
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+    }
+    .snav-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 14px 16px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .snav-item:hover { color: var(--ink); border-bottom-color: var(--border-dark); }
+    .snav-item.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+
+    /* ── UNVERIFIED BANNER ── */
+    .unverified-banner {
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 4px 4px 0;
+      padding: 12px 16px;
+      margin: 24px 0 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: #92400e;
+      letter-spacing: 0.02em;
     }
 
     /* ── SECTION ── */
     .section {
-      margin-bottom: 48px;
-      border-top: 2px solid var(--black);
-      padding-top: 24px;
+      padding: 48px 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
     }
+    .section:first-of-type { border-top: none; margin-top: 32px; }
+
     .section-header {
       display: flex;
       align-items: baseline;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 14px;
+      margin-bottom: 24px;
     }
-    .section-number {
-      font-family: 'IBM Plex Mono', monospace;
+    .section-num {
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       color: var(--red);
       letter-spacing: 0.1em;
+      flex-shrink: 0;
     }
     .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
-      letter-spacing: 0.05em;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
       color: var(--black);
+      text-transform: uppercase;
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      margin-left: auto;
     }
 
     /* ── PROMISE CARDS ── */
@@ -167,120 +333,109 @@
       border-radius: 4px;
       margin-bottom: 16px;
       overflow: hidden;
+      transition: box-shadow 0.2s;
     }
-    .promise-top {
-      background: var(--warm);
-      padding: 16px 20px;
+    .promise-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .promise-head {
+      padding: 18px 20px 16px;
+      background: var(--off-white);
       border-bottom: 1px solid var(--border);
     }
-    .promise-label {
-      font-family: 'IBM Plex Mono', monospace;
+    .promise-context {
+      font-family: 'DM Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .promise-quote {
       font-size: 15px;
       font-style: italic;
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.6;
     }
-    .promise-source {
-      font-family: 'IBM Plex Mono', monospace;
+    .promise-quote::before { content: '\201C'; }
+    .promise-quote::after  { content: '\201D'; }
+    .promise-src {
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       color: var(--muted);
       margin-top: 8px;
     }
-    .promise-source a { color: var(--red); text-decoration: none; }
-    .promise-source a:hover { text-decoration: underline; }
-    .promise-bottom {
-      padding: 14px 20px;
+    .promise-src a { color: var(--red); text-decoration: none; }
+    .promise-src a:hover { text-decoration: underline; }
+    .promise-body {
+      padding: 16px 20px;
       display: flex;
-      align-items: flex-start;
       gap: 16px;
-      background: #fff;
+      align-items: flex-start;
+      background: var(--white);
     }
     .verdict {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 15px;
-      letter-spacing: 0.08em;
-      padding: 4px 10px;
-      border-radius: 2px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 3px;
       white-space: nowrap;
       flex-shrink: 0;
+      margin-top: 2px;
     }
-    .verdict.kept     { background: #e8f5eb; color: var(--kept); }
-    .verdict.broken   { background: #fdecea; color: var(--broken); }
-    .verdict.progress { background: #fef8e6; color: var(--progress); }
-    .verdict.noaction { background: #f0f0f4; color: var(--noaction); }
+    .verdict.kept     { background: var(--kept-bg);     color: var(--kept);     }
+    .verdict.broken   { background: var(--broken-bg);   color: var(--broken);   }
+    .verdict.progress { background: var(--progress-bg); color: var(--progress); }
+    .verdict.noaction { background: var(--noaction-bg); color: var(--noaction); }
     .promise-record {
       font-size: 14px;
+      line-height: 1.6;
       color: var(--ink);
-      line-height: 1.5;
       flex: 1;
     }
-    .promise-record a { color: var(--red); font-size: 12px; font-family: 'IBM Plex Mono', monospace; }
-
-    /* ── DATA TABLE ── */
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .data-table th {
-      background: var(--black);
-      color: var(--warm);
-      font-family: 'IBM Plex Mono', monospace;
+    .promise-record a {
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 10px 14px;
-      text-align: left;
-    }
-    .data-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:nth-child(even) td { background: var(--warm); }
-    .data-table a {
       color: var(--red);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
       text-decoration: none;
     }
-    .data-table a:hover { text-decoration: underline; }
-
-    /* ── VOTE BADGE ── */
-    .vote-yes   { color: var(--kept);     font-weight: 600; }
-    .vote-no    { color: var(--broken);   font-weight: 600; }
-    .vote-other { color: var(--noaction); font-weight: 600; }
+    .promise-record a:hover { text-decoration: underline; }
+    .empty-promises {
+      background: var(--off-white);
+      border: 1px dashed var(--border-dark);
+      border-radius: 4px;
+      padding: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
 
     /* ── STAT ROW ── */
     .stat-row {
       display: flex;
-      gap: 24px;
+      gap: 16px;
+      margin-bottom: 24px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
     }
-    .stat-box {
-      background: var(--warm);
+    .stat-card {
+      flex: 1;
+      min-width: 120px;
+      background: var(--off-white);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 14px 20px;
-      min-width: 140px;
+      padding: 16px 20px;
     }
     .stat-value {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
       color: var(--black);
       line-height: 1;
     }
     .stat-label {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -288,498 +443,812 @@
       margin-top: 4px;
     }
 
-    /* ── LEGAL / FLAG CARDS ── */
+    /* ── DATA TABLE ── */
+    .data-table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead tr {
+      background: var(--black);
+    }
+    thead th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      padding: 11px 16px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--off-white); }
+    tbody td {
+      padding: 11px 16px;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    tbody td a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      text-decoration: none;
+    }
+    tbody td a:hover { text-decoration: underline; }
+    .vote-yea  { color: var(--kept);    font-weight: 700; font-family: 'DM Mono', monospace; font-size: 11px; }
+    .vote-nay  { color: var(--broken);  font-weight: 700; font-family: 'DM Mono', monospace; font-size: 11px; }
+    .vote-other{ color: var(--muted);   font-weight: 700; font-family: 'DM Mono', monospace; font-size: 11px; }
+
+    /* ── FLAG CARDS ── */
     .flag-card {
-      border-left: 4px solid var(--red);
-      background: #fff8f8;
-      padding: 14px 18px;
-      margin-bottom: 12px;
+      border-left: 3px solid var(--red);
+      background: var(--off-white);
       border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-bottom: 10px;
     }
     .flag-card.clear {
       border-left-color: var(--kept);
-      background: #f8fff9;
     }
     .flag-card.neutral {
-      border-left-color: var(--muted);
-      background: var(--warm);
+      border-left-color: var(--border-dark);
     }
     .flag-type {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .flag-detail {
       font-size: 14px;
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.55;
     }
     .flag-source {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
+      color: var(--muted);
       margin-top: 6px;
     }
     .flag-source a { color: var(--red); text-decoration: none; }
     .flag-source a:hover { text-decoration: underline; }
 
-    /* ── GOOD RECORD CARDS ── */
+    /* ── GOOD CARDS ── */
     .good-card {
-      border-left: 4px solid var(--kept);
-      background: #f8fff9;
-      padding: 14px 18px;
-      margin-bottom: 12px;
+      border-left: 3px solid var(--kept);
+      background: var(--kept-bg);
       border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-bottom: 10px;
     }
     .good-type {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
+      color: var(--kept);
+      margin-bottom: 5px;
     }
     .good-detail {
       font-size: 14px;
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.55;
     }
     .good-source {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
+      color: var(--muted);
       margin-top: 6px;
     }
     .good-source a { color: var(--kept); text-decoration: none; }
     .good-source a:hover { text-decoration: underline; }
 
-    /* ── EMPTY STATE ── */
-    .empty {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-      padding: 16px;
-      background: var(--warm);
-      border: 1px dashed var(--border);
-      border-radius: 4px;
-    }
-
-    /* ── UNVERIFIED BANNER ── */
-    .unverified-banner {
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 4px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #664d03;
-      margin-bottom: 32px;
-      font-family: 'IBM Plex Mono', monospace;
+    /* ── REVIEW BADGE ── */
+    .review-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #fef8ed;
+      color: #9a6b00;
+      border: 1px solid #f0d080;
+      border-radius: 2px;
+      padding: 2px 6px;
+      margin-left: 8px;
+      vertical-align: middle;
     }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--black);
+    .page-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-verified {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
       color: var(--muted);
+    }
+    .footer-correction a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .footer-correction a:hover { text-decoration: underline; }
+
+    site-footer {
+      display: block;
+      background: var(--black);
+      color: rgba(255,255,255,0.35);
       text-align: center;
-      padding: 24px 32px;
-      font-family: 'IBM Plex Mono', monospace;
+      padding: 20px;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.05em;
+      margin-top: 0;
     }
-    footer a { color: var(--red); text-decoration: none; }
+    site-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
 
-    @media (max-width: 600px) {
-      .hero-inner { flex-direction: column; gap: 20px; }
-      .hero-name  { font-size: 38px; }
-      .container  { padding: 24px 16px 60px; }
-      nav         { padding: 0 16px; }
+    /* ── EMPTY STATE ── */
+    .empty {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 20px;
+      background: var(--off-white);
+      border: 1px dashed var(--border-dark);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    /* ── ERROR ── */
+    #error-screen {
+      display: none;
+      max-width: 500px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 40px;
+    }
+    #error-screen h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+    #error-screen p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 680px) {
+      nav, .hero { padding-left: 20px; padding-right: 20px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: row; }
+      .hero-stat { text-align: left; }
+      .hero-name { font-size: 44px; }
+      .main { padding: 0 20px 60px; }
+      .section-nav-inner { padding: 0 20px; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <a class="logo" href="index.html">
-    <img src="tract-logo-dark.svg" alt="TRACT" />
+<!-- LOADING -->
+<div id="loading-screen">
+  <img class="loading-logo" src="tract-logo.svg" alt="TRACT"/>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  <div class="loading-text">Loading profile</div>
+</div>
+
+<!-- ERROR -->
+<div id="error-screen">
+  <h2>Profile Not Found</h2>
+  <p>This profile could not be loaded. <a href="politicians.html">Return to all politicians</a>.</p>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav" style="display:none;">
+  <a class="nav-logo" href="index.html">
+    <img src="tract-logo-dark.svg" alt="TRACT"/>
   </a>
-  <a class="back" href="politicians.html">← All Politicians</a>
+  <div class="nav-right">
+    <a href="politicians.html" class="nav-link">← All Politicians</a>
+    <a href="mailto:editor@usetract.org" class="nav-link">Submit Correction</a>
+  </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="hero" style="display:none;">
   <div class="hero-inner">
-    <img class="hero-photo" src="https://bioguide.congress.gov/bioguide/photo/J/J000299.jpg" alt="Mike Johnson" onerror="this.style.display='none'"/>
-    <div class="hero-meta">
-      <div class="hero-name">Mike Johnson</div>
-      <div class="hero-title"> · Louisiana · District 4</div>
-      <div class="hero-tags">
-        <span class="tag party-d"></span>
-        <span class="tag">U.S. Senate</span>
-        <span class="tag">In Office Since —</span>
-        <span class="tag">Term Ends —</span>
-      </div>
-      <div class="hero-links">
-        <a href="https://mikejohnson.house.gov" target="_blank">Official Site ↗</a>
-        <a href="https://x.com/SpeakerJohnson" target="_blank">Twitter/X ↗</a>
-        <a href="https://www.congress.gov/member/J000299" target="_blank">Congress.gov ↗</a>
-        <a href="https://www.fec.gov/data/candidate/H6LA04306/" target="_blank">FEC Profile ↗</a>
+    <div class="hero-photo-wrap" id="hero-photo-wrap">
+      <div class="hero-photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
       </div>
     </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="hero-eyebrow">Loading...</div>
+      <div class="hero-name" id="hero-name">—</div>
+      <div class="hero-tags" id="hero-tags"></div>
+      <div class="hero-links" id="hero-links"></div>
+    </div>
+    <div class="hero-stats" id="hero-stats"></div>
   </div>
 </div>
 
-<div class="container">
+<!-- SECTION NAV -->
+<nav class="section-nav" id="section-nav" style="display:none;">
+  <div class="section-nav-inner">
+    <a href="#promises"     class="snav-item">Promises</a>
+    <a href="#votes"        class="snav-item">Votes</a>
+    <a href="#donors"       class="snav-item">Donors</a>
+    <a href="#committees"   class="snav-item">Committees</a>
+    <a href="#financial"    class="snav-item">Financial</a>
+    <a href="#conflicts"    class="snav-item">Conflicts</a>
+    <a href="#foreign"      class="snav-item">Foreign</a>
+    <a href="#legal"        class="snav-item">Legal</a>
+    <a href="#court-docs"   class="snav-item">Court Docs</a>
+    <a href="#public-service" class="snav-item">Public Service</a>
+  </div>
+</nav>
 
-  <!-- UNVERIFIED BANNER — remove when profile is fully verified -->
-  <div class="unverified-banner" id="unverified-banner">
-    ⚠ This profile contains placeholder data pending full verification. Data will be updated as sources are confirmed.
+<!-- MAIN CONTENT -->
+<div class="main" id="main-content" style="display:none;">
+
+  <div id="unverified-banner" class="unverified-banner">
+    ⚠ This profile contains auto-pulled data pending full editorial verification. Sourced from public federal records. Last updated: <span id="last-updated">—</span>
   </div>
 
-  <!-- ── SECTION 1: PROMISES VS RECORD ── -->
-  <div class="section">
+  <!-- 01 PROMISES -->
+  <div class="section" id="promises">
     <div class="section-header">
-      <span class="section-number">01</span>
+      <span class="section-num">01</span>
       <span class="section-title">Promises vs Record</span>
     </div>
-    <div id="promises-container">
-      <!-- Populated by CMS -->
-      <div class="empty">No promises recorded yet. Add to the Promises tab.</div>
-    </div>
+    <div id="promises-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── SECTION 2: VOTING RECORD ── -->
-  <div class="section">
+  <!-- 02 VOTES -->
+  <div class="section" id="votes">
     <div class="section-header">
-      <span class="section-number">02</span>
+      <span class="section-num">02</span>
       <span class="section-title">Voting Record</span>
     </div>
-    <div class="stat-row">
-      <div class="stat-box">
-        <div class="stat-value">—%</div>
-        <div class="stat-label">Attendance Rate</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Missed Votes</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Total Votes Cast</div>
-      </div>
+    <div class="stat-row" id="voting-stats-row"></div>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Bill</th>
+            <th>Description</th>
+            <th>Vote</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="votes-body"><tr><td colspan="5" class="empty" style="border:none;">Loading...</td></tr></tbody>
+      </table>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Bill</th>
-          <th>Description</th>
-          <th>Vote</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody id="votes-body">
-        <tr><td colspan="5" style="color:#999;font-style:italic;padding:16px;">No votes recorded yet.</td></tr>
-      </tbody>
-    </table>
   </div>
 
-  <!-- ── SECTION 3: DONORS ── -->
-  <div class="section">
+  <!-- 03 DONORS -->
+  <div class="section" id="donors">
     <div class="section-header">
-      <span class="section-number">03</span>
+      <span class="section-num">03</span>
       <span class="section-title">Campaign Donors</span>
     </div>
-    <div class="stat-row">
-      <div class="stat-box">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Total Raised (Cycle)</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">—%</div>
-        <div class="stat-label">From PACs</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">—%</div>
-        <div class="stat-label">From Individuals</div>
-      </div>
+    <div class="stat-row" id="donor-stats-row"></div>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Contributor</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="donors-body"><tr><td colspan="5" class="empty" style="border:none;">Loading...</td></tr></tbody>
+      </table>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Contributor</th>
-          <th>Amount</th>
-          <th>Type</th>
-          <th>Date</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody id="donors-body">
-        <tr><td colspan="5" style="color:#999;font-style:italic;padding:16px;">No donor data yet.</td></tr>
-      </tbody>
-    </table>
   </div>
 
-  <!-- ── SECTION 4: COMMITTEES ── -->
-  <div class="section">
+  <!-- 04 COMMITTEES -->
+  <div class="section" id="committees">
     <div class="section-header">
-      <span class="section-number">04</span>
+      <span class="section-num">04</span>
       <span class="section-title">Committee Assignments</span>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Committee</th>
-          <th>Role</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody id="committees-body">
-        <tr>
-    <td>Speaker of the House</td>
-    <td>Former</td>
-    <td><a href="https://www.congress.gov/member/J000299" target="_blank">Source ↗</a></td>
-  </tr>
-<tr>
-    <td>Speaker of the House</td>
-    <td>Active</td>
-    <td><a href="https://www.congress.gov/member/J000299" target="_blank">Source ↗</a></td>
-  </tr>
-      </tbody>
-    </table>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Committee</th>
+            <th>Role</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="committees-body"><tr><td colspan="3" class="empty" style="border:none;">Loading...</td></tr></tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- ── SECTION 5: FINANCIAL ── -->
-  <div class="section">
+  <!-- 05 FINANCIAL -->
+  <div class="section" id="financial">
     <div class="section-header">
-      <span class="section-number">05</span>
+      <span class="section-num">05</span>
       <span class="section-title">Financial Disclosure</span>
     </div>
-    <div class="stat-row">
-      <div class="stat-box">
-        <div class="stat-value">— Pending manual entry —</div>
-        <div class="stat-label">Est. Net Worth</div>
-      </div>
+    <div class="stat-row" id="net-worth-row"></div>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Asset / Stock</th>
+            <th>Transaction</th>
+            <th>Amount</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="financial-body"><tr><td colspan="5" class="empty" style="border:none;">Loading...</td></tr></tbody>
+      </table>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Stock / Asset</th>
-          <th>Transaction</th>
-          <th>Amount</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody id="financial-body">
-        
-      </tbody>
-    </table>
   </div>
 
-  <!-- ── SECTION 6: CONFLICTS OF INTEREST ── -->
-  <div class="section">
+  <!-- 06 CONFLICTS -->
+  <div class="section" id="conflicts">
     <div class="section-header">
-      <span class="section-number">06</span>
+      <span class="section-num">06</span>
       <span class="section-title">Conflicts of Interest</span>
     </div>
-    <div id="conflicts-container">
-      <div class="flag-card">
-      <div class="flag-type">Lobbying · ASIS INTERNATIONAL</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/86260004-84e7-46e3-9cfa-76edae508768/" target="_blank">https://lda.senate.gov/filings/86260004-84e7-46e3-9cfa-76edae508768/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/b61d5fc3-fe25-4e1e-b537-1d70553745e0/" target="_blank">https://lda.senate.gov/filings/b61d5fc3-fe25-4e1e-b537-1d70553745e0/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION OF UNIVERSITY WOMEN</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/5a725b27-b6cf-4661-9a36-39a9aa21433d/" target="_blank">https://lda.senate.gov/filings/5a725b27-b6cf-4661-9a36-39a9aa21433d/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · THE DUBERSTEIN GROUP INC.</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4d455134-6e20-40d6-9aee-88d7d9a81adc/" target="_blank">https://lda.senate.gov/filings/4d455134-6e20-40d6-9aee-88d7d9a81adc/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/cb0d3d13-4cc0-49bc-91d1-a0666285830e/" target="_blank">https://lda.senate.gov/filings/cb0d3d13-4cc0-49bc-91d1-a0666285830e/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION OF UNIVERSITY WOMEN</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/60c7368c-d8a9-4701-9a79-4bfc4ab81c69/" target="_blank">https://lda.senate.gov/filings/60c7368c-d8a9-4701-9a79-4bfc4ab81c69/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · MAGAZINE PUBLISHERS OF AMERICA</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/3f31c5d8-6b6f-4166-a70e-a472802ddbaa/" target="_blank">https://lda.senate.gov/filings/3f31c5d8-6b6f-4166-a70e-a472802ddbaa/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN HUMANE ASSOCIATION</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/89453b1d-9ac0-42e3-ab39-1b8ec4e4faff/" target="_blank">https://lda.senate.gov/filings/89453b1d-9ac0-42e3-ab39-1b8ec4e4faff/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMERICAN ASSOCIATION FOR JUSTICE</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/56b382d1-f218-45ee-9c77-cb2c5eb107f0/" target="_blank">https://lda.senate.gov/filings/56b382d1-f218-45ee-9c77-cb2c5eb107f0/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · DENNY MILLER ASSOCIATES</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4d318f15-8b83-448a-bc6c-6f1f09a7330b/" target="_blank">https://lda.senate.gov/filings/4d318f15-8b83-448a-bc6c-6f1f09a7330b/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · WEXLER | WALKER, A UNIT OF HILL+KNOWLTON STRATEGIES, LLC</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/ddc26689-0cfc-42a7-a8c7-aca82e42b5d5/" target="_blank">https://lda.senate.gov/filings/ddc26689-0cfc-42a7-a8c7-aca82e42b5d5/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · INTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/6854a6dc-05ab-4b75-897b-88d96f0a69a9/" target="_blank">https://lda.senate.gov/filings/6854a6dc-05ab-4b75-897b-88d96f0a69a9/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · THE AMERICAN PHYSIOLOGICAL SOCIETY</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/a8f36c02-c547-4995-b8be-7a10b0530667/" target="_blank">https://lda.senate.gov/filings/a8f36c02-c547-4995-b8be-7a10b0530667/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · EXPRESS SCRIPTS, INC.</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/12ccb299-e0ba-481d-bba5-cfd23ff306b4/" target="_blank">https://lda.senate.gov/filings/12ccb299-e0ba-481d-bba5-cfd23ff306b4/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · DPV SOLUTIONS, LLC</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/7aff63ac-3661-4551-9caf-7f848774630f/" target="_blank">https://lda.senate.gov/filings/7aff63ac-3661-4551-9caf-7f848774630f/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · MATTOON &amp; ASSOCIATES, LLC</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/2d4425f6-b45a-404c-b287-48af56de682c/" target="_blank">https://lda.senate.gov/filings/2d4425f6-b45a-404c-b287-48af56de682c/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · PENNSYLVANIA FARM BUREAU</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/a042c7e6-438e-497b-8289-e84e566d0a11/" target="_blank">https://lda.senate.gov/filings/a042c7e6-438e-497b-8289-e84e566d0a11/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · CAROLYN C. CHANEY &amp; ASSOCIATES, INC.</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/86f76d89-3df4-4f3f-a454-e0c56fa35e79/" target="_blank">https://lda.senate.gov/filings/86f76d89-3df4-4f3f-a454-e0c56fa35e79/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMALGAMATED TRANSIT UNION</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/14c547e8-b5d2-4049-accf-7b48f4ef30bb/" target="_blank">https://lda.senate.gov/filings/14c547e8-b5d2-4049-accf-7b48f4ef30bb/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · AMALGAMATED TRANSIT UNION</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/fb377c1b-c5ac-49b1-ac4d-689496ae1fec/" target="_blank">https://lda.senate.gov/filings/fb377c1b-c5ac-49b1-ac4d-689496ae1fec/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · U.S. BEET SUGAR ASSOCIATION</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/7222ec67-0bda-4677-8748-1865857cd035/" target="_blank">https://lda.senate.gov/filings/7222ec67-0bda-4677-8748-1865857cd035/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · RYBERG AND SMITH, L.L.C.</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/21b7da9f-d57a-44d5-8029-6e5c18a1410f/" target="_blank">https://lda.senate.gov/filings/21b7da9f-d57a-44d5-8029-6e5c18a1410f/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · MATTOON &amp; ASSOCIATES, LLC</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/af24d99f-4524-4a82-9ecf-f8abc9bc1ebf/" target="_blank">https://lda.senate.gov/filings/af24d99f-4524-4a82-9ecf-f8abc9bc1ebf/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · SONOSKY, CHAMBERS, SACHSE, ENDRESON &amp; PERRY, LLP</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/4f43c715-065a-4e27-b87a-6306d1c7eeb8/" target="_blank">https://lda.senate.gov/filings/4f43c715-065a-4e27-b87a-6306d1c7eeb8/</a></div>
-    </div>
-<div class="flag-card">
-      <div class="flag-type">Lobbying · THE AMERICAN PHYSIOLOGICAL SOCIETY</div>
-      <div class="flag-detail">Client: . Filing: MM</div>
-      <div class="flag-source">Source: <a href="https://lda.senate.gov/filings/847e0a9d-f395-46d4-9f4f-08e309d3c4f5/" target="_blank">https://lda.senate.gov/filings/847e0a9d-f395-46d4-9f4f-08e309d3c4f5/</a></div>
-    </div>
-    </div>
+    <div id="conflicts-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── SECTION 7: FOREIGN CONNECTIONS ── -->
-  <div class="section">
+  <!-- 07 FOREIGN -->
+  <div class="section" id="foreign">
     <div class="section-header">
-      <span class="section-number">07</span>
+      <span class="section-num">07</span>
       <span class="section-title">Foreign Connections</span>
     </div>
-    <div id="foreign-container">
-      <div class="flag-card clear">
-      <div class="flag-type">Status</div>
-      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
-    </div>
-    </div>
+    <div id="foreign-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── SECTION 8: LEGAL RECORD ── -->
-  <div class="section">
+  <!-- 08 LEGAL -->
+  <div class="section" id="legal">
     <div class="section-header">
-      <span class="section-number">08</span>
+      <span class="section-num">08</span>
       <span class="section-title">Legal Record</span>
     </div>
-    <div id="legal-container">
-      <div class="flag-card clear">
-      <div class="flag-type">Status</div>
-      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
-    </div>
-    </div>
+    <div id="legal-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── SECTION 9: FEDERAL COURT DOCUMENT REFERENCES ── -->
-  <div class="section">
+  <!-- 09 COURT DOCS -->
+  <div class="section" id="court-docs">
     <div class="section-header">
-      <span class="section-number">09</span>
+      <span class="section-num">09</span>
       <span class="section-title">Federal Court Document References</span>
     </div>
-    <div id="court-container">
-      <div class="flag-card clear">
-      <div class="flag-type">Status</div>
-      <div class="flag-detail">No documented records found in available public sources as of March 26, 2026.</div>
-    </div>
-    </div>
+    <div id="court-docs-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── SECTION 10: PUBLIC SERVICE RECORD ── -->
-  <div class="section">
+  <!-- 10 PUBLIC SERVICE -->
+  <div class="section" id="public-service">
     <div class="section-header">
-      <span class="section-number">10</span>
+      <span class="section-num">10</span>
       <span class="section-title">Public Service Record</span>
     </div>
-    <div id="public-service-container">
-      <div class="good-card" style="border-left-color:var(--muted);background:var(--warm);">
-      <div class="good-type">Status</div>
-      <div class="good-detail">No verified public service record found as of March 26, 2026.</div>
-    </div>
-    </div>
+    <div id="public-service-container"><div class="empty">Loading...</div></div>
   </div>
 
-  <!-- ── LAST VERIFIED ── -->
-  <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
-    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);">
-      Last verified: March 26, 2026 · Sources on file at editor@usetract.org · <a href="mailto:editor@usetract.org" style="color: var(--red); text-decoration: none;">Submit a correction</a>
-    </span>
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-verified">
+      Data sourced from public federal records · Last updated: <span id="footer-date">—</span>
+    </div>
+    <div class="footer-correction">
+      <a href="mailto:editor@usetract.org">Submit a correction ↗</a>
+    </div>
   </div>
 
 </div>
 
-<footer>
-  TRACT is operated by Black Frame Group LLC · <a href="mailto:editor@usetract.org">editor@usetract.org</a> · Data sourced from public federal records
-</footer>
+<site-footer>
+  TRACT is operated by Black Frame Group LLC ·
+  <a href="mailto:editor@usetract.org">editor@usetract.org</a> ·
+  Data sourced from public federal records
+</site-footer>
+
+<script>
+  const API = 'https://tract-api.tracteditor.workers.dev';
+
+  // Get slug from filename
+  const slug = location.pathname
+    .split('/').pop()
+    .replace('.html', '')
+    .toLowerCase();
+
+  async function loadProfile() {
+    try {
+      const res  = await fetch(`${API}/member/${slug}`);
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        showError();
+        return;
+      }
+
+      renderProfile(data);
+    } catch(e) {
+      showError();
+    }
+  }
+
+  function showError() {
+    hide('loading-screen');
+    document.getElementById('error-screen').style.display = 'block';
+  }
+
+  function hide(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
+    setTimeout(() => { if (el) el.style.display = 'none'; }, 400);
+  }
+
+  function show(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = '';
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function renderProfile(data) {
+    const id = data.identity;
+    const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+    // Page title
+    document.title = `${id.name} — TRACT`;
+
+    // Last updated
+    document.getElementById('last-updated').textContent = today;
+    document.getElementById('footer-date').textContent  = today;
+
+    // Unverified banner
+    if (id.verified === 'YES') {
+      const banner = document.getElementById('unverified-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    // Hero
+    renderHero(id, data.votingStats, data.donorStats);
+
+    // Sections
+    renderPromises(data.promises);
+    renderVotes(data.votes, data.votingStats);
+    renderDonors(data.donors, data.donorStats);
+    renderCommittees(data.committees);
+    renderFinancial(data.financial);
+    renderFlagSection('conflicts-container',    data.conflicts,    false);
+    renderFlagSection('foreign-container',      data.foreign,      false);
+    renderFlagSection('legal-container',        data.legal,        false);
+    renderFlagSection('court-docs-container',   data.courtDocs,    false);
+    renderPublicService(data.publicService);
+
+    // Show page
+    hide('loading-screen');
+    show('main-nav');
+    show('hero');
+    show('section-nav');
+    show('main-content');
+
+    // Section nav active state
+    initSectionNav();
+  }
+
+  function renderHero(id, votingStats, donorStats) {
+    // Photo
+    const wrap = document.getElementById('hero-photo-wrap');
+    const partyClass = id.party && id.party.toLowerCase().startsWith('r') ? 'r' : 'd';
+    wrap.innerHTML = `
+      <img class="hero-photo" src="${esc(id.photo_url)}" alt="${esc(id.name)}"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="hero-photo-placeholder" style="display:none;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      </div>
+      <div class="party-bar ${partyClass}"></div>`;
+
+    // Eyebrow + name
+    document.getElementById('hero-eyebrow').textContent =
+      `${id.chamber || ''} · ${id.state || ''}${id.district ? ' District ' + id.district : ''}`;
+    document.getElementById('hero-name').textContent = id.name || '—';
+
+    // Tags
+    const tags = document.getElementById('hero-tags');
+    const tagData = [
+      { label: id.party, cls: partyClass === 'r' ? 'party-r' : 'party-d' },
+      { label: id.chamber === 'House' ? 'U.S. House' : 'U.S. Senate' },
+      { label: id.since ? `Since ${id.since}` : null },
+      { label: id.term_end ? `Term Ends ${id.term_end}` : null },
+    ];
+    tags.innerHTML = tagData
+      .filter(t => t.label)
+      .map(t => `<span class="hero-tag ${t.cls || ''}">${esc(t.label)}</span>`)
+      .join('');
+
+    // Links
+    const links = document.getElementById('hero-links');
+    const linkData = [
+      { url: id.official_url,  label: 'Official Site' },
+      { url: id.twitter_url,   label: 'Twitter/X' },
+      { url: id.congress_url,  label: 'Congress.gov' },
+      { url: id.fec_url,       label: 'FEC Profile' },
+    ];
+    links.innerHTML = linkData
+      .filter(l => l.url && l.url !== '#')
+      .map(l => `<a href="${esc(l.url)}" target="_blank" class="hero-link">${esc(l.label)} ↗</a>`)
+      .join('');
+
+    // Stats
+    const statsEl = document.getElementById('hero-stats');
+    const attendance = votingStats ? (votingStats.attendance_pct || '—') : '—';
+    const totalRaised = donorStats ? (donorStats.total_raised || '—') : '—';
+    statsEl.innerHTML = `
+      <div class="hero-stat">
+        <div class="hero-stat-value">${esc(String(attendance))}${attendance !== '—' ? '%' : ''}</div>
+        <div class="hero-stat-label">Vote Attendance</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">${esc(String(totalRaised))}</div>
+        <div class="hero-stat-label">Total Raised</div>
+      </div>`;
+  }
+
+  function renderPromises(promises) {
+    const el = document.getElementById('promises-container');
+    if (!promises || !promises.length) {
+      el.innerHTML = `<div class="empty-promises">No promises recorded yet. Verification in progress.</div>`;
+      return;
+    }
+    el.innerHTML = promises.map(p => {
+      const verdictClass =
+        p.verdict === 'Kept'        ? 'kept'     :
+        p.verdict === 'Broken'      ? 'broken'   :
+        p.verdict === 'In Progress' ? 'progress' : 'noaction';
+      return `
+        <div class="promise-card">
+          <div class="promise-head">
+            <div class="promise-context">${esc(p.context || '')} · ${esc(p.date_made || '')}</div>
+            <div class="promise-quote">${esc(p.exact_quote || '')}</div>
+            <div class="promise-src">Source: <a href="${esc(p.source_url || '#')}" target="_blank">${esc(p.source_url || '—')}</a></div>
+          </div>
+          <div class="promise-body">
+            <span class="verdict ${verdictClass}">${esc(p.verdict || 'No Action')}</span>
+            <div class="promise-record">
+              ${esc(p.record_what_happened || '—')}
+              ${p.record_source_url ? `<br><a href="${esc(p.record_source_url)}" target="_blank">View source ↗</a>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderVotes(votes, stats) {
+    // Stats row
+    const statsRow = document.getElementById('voting-stats-row');
+    if (stats) {
+      statsRow.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.attendance_pct || '—'))}${stats.attendance_pct && stats.attendance_pct !== '—' ? '%' : ''}</div>
+          <div class="stat-label">Attendance Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.missed_votes || '—'))}</div>
+          <div class="stat-label">Missed Votes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.total_votes || '—'))}</div>
+          <div class="stat-label">Total Votes</div>
+        </div>`;
+    }
+
+    // Table
+    const tbody = document.getElementById('votes-body');
+    if (!votes || !votes.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">No vote data available yet.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = votes.map(v => {
+      const vl = (v.vote || '').toLowerCase();
+      const vClass = vl.includes('yea') || vl.includes('yes') ? 'vote-yea'
+                   : vl.includes('nay') || vl.includes('no')  ? 'vote-nay'
+                   : 'vote-other';
+      return `<tr>
+        <td>${esc(v.date || '—')}</td>
+        <td>${esc(v.bill || '—')}</td>
+        <td>${esc(v.description || '—')}</td>
+        <td class="${vClass}">${esc(v.vote || '—')}</td>
+        <td>${v.source_url ? `<a href="${esc(v.source_url)}" target="_blank">Source ↗</a>` : '—'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderDonors(donors, stats) {
+    // Stats
+    const statsRow = document.getElementById('donor-stats-row');
+    if (stats) {
+      statsRow.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.total_raised || '—'))}</div>
+          <div class="stat-label">Total Raised (${esc(String(stats.cycle || ''))})</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.pac_pct || '—'))}${stats.pac_pct && stats.pac_pct !== '—' ? '%' : ''}</div>
+          <div class="stat-label">From PACs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(stats.individual_pct || '—'))}${stats.individual_pct && stats.individual_pct !== '—' ? '%' : ''}</div>
+          <div class="stat-label">From Individuals</div>
+        </div>`;
+    }
+
+    // Table
+    const tbody = document.getElementById('donors-body');
+    if (!donors || !donors.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">No donor data available yet.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = donors.map(d => {
+      const amt = d.amount ? `$${Number(d.amount).toLocaleString()}` : '—';
+      return `<tr>
+        <td>${esc(d.contributor || '—')}</td>
+        <td>${esc(amt)}</td>
+        <td>${esc(d.type || '—')}</td>
+        <td>${esc(d.date || '—')}</td>
+        <td>${d.source_url ? `<a href="${esc(d.source_url)}" target="_blank">FEC ↗</a>` : '—'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderCommittees(committees) {
+    const tbody = document.getElementById('committees-body');
+    if (!committees || !committees.length) {
+      tbody.innerHTML = `<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">No committee data available yet.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = committees.map(c => `<tr>
+      <td>${esc(c.committee || '—')}</td>
+      <td>${esc(c.role || '—')}</td>
+      <td>${c.source_url ? `<a href="${esc(c.source_url)}" target="_blank">Source ↗</a>` : '—'}</td>
+    </tr>`).join('');
+  }
+
+  function renderFinancial(financial) {
+    // Net worth
+    const nwRow = document.getElementById('net-worth-row');
+    if (financial && financial.length > 0 && financial[0].net_worth_est) {
+      nwRow.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-value">${esc(String(financial[0].net_worth_est))}</div>
+          <div class="stat-label">Est. Net Worth</div>
+        </div>`;
+    }
+
+    // Table
+    const tbody = document.getElementById('financial-body');
+    const trades = financial ? financial.filter(f => f.asset && f.asset !== 'See financial disclosures') : [];
+    if (!trades.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">Financial disclosure data pending manual entry.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = trades.map(f => {
+      const amt = f.amount ? `$${Number(f.amount).toLocaleString()}` : '—';
+      return `<tr>
+        <td>${esc(f.date || '—')}</td>
+        <td>${esc(f.asset || '—')}</td>
+        <td>${esc(f.transaction || '—')}</td>
+        <td>${esc(amt)}</td>
+        <td>${f.source_url ? `<a href="${esc(f.source_url)}" target="_blank">Disclosure ↗</a>` : '—'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderFlagSection(containerId, items, isGood) {
+    const el = document.getElementById(containerId);
+    if (!items || !items.length) {
+      el.innerHTML = `<div class="flag-card neutral">
+        <div class="flag-type">Status</div>
+        <div class="flag-detail">No documented records found in available public sources as of ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}.</div>
+      </div>`;
+      return;
+    }
+    el.innerHTML = items.map(item => {
+      const type   = item.type || item.document_name || '';
+      const entity = item.entity || item.country_entity || item.court || '';
+      const detail = item.detail || item.what_it_states || item.summary || '';
+      const src    = item.source_url || '';
+      const notes  = item.notes || '';
+      const isClear = detail.toLowerCase().includes('no ') && detail.toLowerCase().includes('found');
+      return `<div class="flag-card ${isClear ? 'clear' : ''}">
+        <div class="flag-type">${esc(type)}${entity ? ' · ' + esc(entity) : ''}${notes ? `<span class="review-badge">Verify</span>` : ''}</div>
+        <div class="flag-detail">${esc(detail)}</div>
+        ${src ? `<div class="flag-source">Source: <a href="${esc(src)}" target="_blank">${esc(src)}</a></div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  function renderPublicService(items) {
+    const el = document.getElementById('public-service-container');
+    if (!items || !items.length) {
+      el.innerHTML = `<div class="flag-card neutral">
+        <div class="flag-type">Status</div>
+        <div class="flag-detail">No verified public service record found in available public sources as of ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}.</div>
+      </div>`;
+      return;
+    }
+    el.innerHTML = items.map(item => {
+      const isClear = (item.detail || '').toLowerCase().includes('no ') && (item.detail || '').toLowerCase().includes('found');
+      return `<div class="good-card ${isClear ? '' : ''}">
+        <div class="good-type">${esc(item.type || '')}${item.organization ? ' · ' + esc(item.organization) : ''}${item.notes ? `<span class="review-badge">Verify</span>` : ''}</div>
+        <div class="good-detail">
+          ${item.role && item.role !== 'N/A' ? `<strong>${esc(item.role)}</strong>${item.years ? ' · ' + esc(item.years) : ''}<br>` : ''}
+          ${esc(item.detail || '')}
+        </div>
+        ${item.source_url ? `<div class="good-source">Source: <a href="${esc(item.source_url)}" target="_blank">${esc(item.source_url)}</a></div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  function initSectionNav() {
+    const items    = document.querySelectorAll('.snav-item');
+    const sections = ['promises','votes','donors','committees','financial','conflicts','foreign','legal','court-docs','public-service'];
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          items.forEach(i => i.classList.remove('active'));
+          const active = document.querySelector(`.snav-item[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  // Boot
+  loadProfile();
+</script>
 
 </body>
 </html>
